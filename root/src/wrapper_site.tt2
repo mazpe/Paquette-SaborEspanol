@@ -23,7 +23,7 @@
         width="133" height="122" border="0" alt="" />
       </a>
       <div id="left_menu_search">
-        <span id="search">SEARCH FOR OUR PRODUCTS</span>
+        <span id="search">SEARCH FOR PRODUCTS</span>
         <input name="search_box" type="text" id="search_box" size="15" alt="" />
       </div><!-- end of left_menu_search -->
       <br />
@@ -209,7 +209,7 @@
             alt="Oils and Vinegars" />
         </map>
 
-<div align="center" style="color: white">Powered by gbRND</div>
+<div align="center" id="power_by">Powered by gbRND</div>
 </body>
 </html>
 
