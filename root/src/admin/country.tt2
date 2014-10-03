@@ -1,0 +1,8 @@
+[% META title = 'Create Countries' -%]
+
+
+<div id="countries_block">
+
+[% form.render %]
+
+</div>

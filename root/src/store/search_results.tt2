@@ -1,0 +1,15 @@
+<h2>Search</h2>
+
+<div id="content_block">
+
+[% FOREACH result IN results %]
+
+<a href="/store/[% result.category.parent.url_name %]/[% result.category.url_name %]/[% result.url_name %]">[% result.name %]  <br>
+</a>
+
+[% END %]
+
+</div><!-- end of content_product -->
+
+<div class="clear br">&nbsp;</div>
+

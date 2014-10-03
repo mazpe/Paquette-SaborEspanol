@@ -30,7 +30,7 @@ __PACKAGE__->add_columns(
   {
     data_type => "VARCHAR",
     default_value => undef,
-    is_nullable => 0,
+    is_nullable => 1,
     size => 255,
   },
   "bill_address1",
@@ -44,7 +44,7 @@ __PACKAGE__->add_columns(
   {
     data_type => "VARCHAR",
     default_value => undef,
-    is_nullable => 0,
+    is_nullable => 1,
     size => 255,
   },
   "bill_city",
@@ -100,7 +100,7 @@ __PACKAGE__->add_columns(
   {
     data_type => "VARCHAR",
     default_value => undef,
-    is_nullable => 0,
+    is_nullable => 1,
     size => 255,
   },
   "ship_address1",
@@ -114,7 +114,7 @@ __PACKAGE__->add_columns(
   {
     data_type => "VARCHAR",
     default_value => undef,
-    is_nullable => 0,
+    is_nullable => 1,
     size => 255,
   },
   "ship_city",
@@ -163,59 +163,53 @@ __PACKAGE__->add_columns(
   {
     data_type => "VARCHAR",
     default_value => undef,
-    is_nullable => 1,
+    is_nullable => 0,
     size => 32,
   },
   "shipping_amount",
-  {
-    data_type => "DECIMAL",
-    default_value => "0.00",
-    is_nullable => 1,
-    size => 9,
-  },
+  { data_type => "DECIMAL", default_value => undef, is_nullable => 0, size => 9 },
   "payment_type",
   {
     data_type => "VARCHAR",
     default_value => undef,
-    is_nullable => 1,
+    is_nullable => 0,
     size => 11,
   },
   "payment_amount",
-  {
-    data_type => "DECIMAL",
-    default_value => "0.00",
-    is_nullable => 1,
-    size => 9,
-  },
+  { data_type => "DECIMAL", default_value => undef, is_nullable => 0, size => 9 },
   "credit_card_number",
   {
     data_type => "VARCHAR",
     default_value => undef,
-    is_nullable => 0,
+    is_nullable => 1,
     size => 128,
   },
-  "credit_card_expiration",
-  {
-    data_type => "VARCHAR",
-    default_value => undef,
-    is_nullable => 0,
-    size => 128,
-  },
+  "credit_card_exp_month",
+  { data_type => "INT", default_value => undef, is_nullable => 0, size => 2 },
+  "credit_card_exp_year",
+  { data_type => "INT", default_value => undef, is_nullable => 0, size => 4 },
   "credit_card_cvv",
   {
     data_type => "VARCHAR",
     default_value => undef,
-    is_nullable => 0,
+    is_nullable => 1,
     size => 128,
   },
   "paypal_email",
   {
     data_type => "VARCHAR",
     default_value => undef,
-    is_nullable => 0,
+    is_nullable => 1,
     size => 128,
   },
-  "payment_total",
+  "promo_code",
+  {
+    data_type => "VARCHAR",
+    default_value => undef,
+    is_nullable => 1,
+    size => 10,
+  },
+  "discount_amount",
   {
     data_type => "DECIMAL",
     default_value => "0.00",
@@ -229,6 +223,50 @@ __PACKAGE__->add_columns(
     is_nullable => 0,
     size => 12,
   },
+  "txn_status",
+  {
+    data_type => "VARCHAR",
+    default_value => undef,
+    is_nullable => 1,
+    size => 255,
+  },
+  "txn_id",
+  {
+    data_type => "VARCHAR",
+    default_value => undef,
+    is_nullable => 1,
+    size => 255,
+  },
+  "txn_auth_code",
+  {
+    data_type => "VARCHAR",
+    default_value => undef,
+    is_nullable => 1,
+    size => 128,
+  },
+  "txn_avs",
+  {
+    data_type => "VARCHAR",
+    default_value => undef,
+    is_nullable => 1,
+    size => 32,
+  },
+  "txn_cvv",
+  {
+    data_type => "VARCHAR",
+    default_value => undef,
+    is_nullable => 1,
+    size => 32,
+  },
+  "txn_code",
+  {
+    data_type => "VARCHAR",
+    default_value => undef,
+    is_nullable => 1,
+    size => 32,
+  },
+  "active",
+  { data_type => "INT", default_value => 1, is_nullable => 0, size => 1 },
   "created",
   {
     data_type => "DATETIME",
@@ -247,8 +285,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04005 @ 2009-09-10 08:14:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:yLYasivTjp14T9qYD5cntg
+# Created by DBIx::Class::Schema::Loader v0.04005 @ 2010-04-12 12:18:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cr51lwbnBrBZR08k2ECBJA
 __PACKAGE__->add_columns(
     "created",
     { data_type => 'datetime', set_on_create => 1 },

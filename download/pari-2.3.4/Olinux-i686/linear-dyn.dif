@@ -1,0 +1,15 @@
+*** ../src/test/32/linear	2008-01-16 10:45:01.000000000 -0500
+--- gp.out	2009-10-27 09:50:45.000000000 -0400
+***************
+*** 730,734 ****
+  ? getheap
+  [109, 11698]
+  ? print("Total time spent: ",gettime);
+! Total time spent: 16
+  ? \q
+--- 730,734 ----
+  ? getheap
+  [109, 11698]
+  ? print("Total time spent: ",gettime);
+! Total time spent: 12
+  ? \q

@@ -8,11 +8,10 @@ use Data::Dumper;
 has 'user'          => ( is => 'ro', required => 1, weak_ref => 1 );
 has 'session'       => ( is => 'ro', required => 1, weak_ref => 1 );
 has 'session_id'    => ( is => 'ro', required => 1, weak_ref => 1 );
-has 'schema'    => ( is => 'rw', required => 1, handles => [qw / resultset /] );
-has 'sku'       => ( is => 'ro', isa => Str );
-has 'qty'       => ( is => 'ro', isa => Int, default => 0 );
-
-has '_items'    => ( is => 'ro', isa => ArrayRef, lazy_build => 1 );
+has 'schema'        => ( is => 'rw', required => 1, handles => [qw / resultset /] );
+has 'sku'           => ( is => 'ro', isa => Str );
+has 'qty'           => ( is => 'ro', isa => Int, default => 0 );
+has '_items'        => ( is => 'ro', isa => ArrayRef, lazy_build => 1 );
 
 sub create_cart {
     my ( $self, $customer_id ) = @_;
@@ -61,13 +60,25 @@ sub get_cart {
     return $cart;
 }
 
-
 sub get_cart_id {
+    my $self = shift;
+    my $cart;
+    my $cart_id;
+
+    # get card by session id
+    $cart = $self->resultset('Cart')->get_cart( {
+        session_id => $self->session_id,
+    });
+
+    $cart_id = $cart->id if $cart;
+    return $cart_id;
+}
+
+sub get_cart_id2 {
     my $self            = shift;
     my $session_id      = $self->session_id;
     my $cart_args;
     my $cart_id;
-
 
     if ( $self->session->{cart_id} gt 0 ) {
     # There is a cart_id in the session
@@ -95,17 +106,24 @@ sub get_cart_id {
         $cart_id = create_cart($self)->id;
 
     }
-        
+
     $self->session->{cart_id} = $cart_id;
 
     return $cart_id;
 }
 
+
 # Adds items to the shopping cart
 sub add_items_to_cart {
     my ( $self, $args ) = @_;
     my $cart_id         = get_cart_id($self);
+    my $cart;
     my $item;
+
+    if (!$cart_id) {
+        $cart = create_cart($self);
+        $cart_id = $cart->id if ($cart);
+    }
 
     # Check that we do have this item
     if ( $self->resultset('Product')->get_item_by_sku($args->{sku}) ) {
@@ -139,13 +157,24 @@ sub sum_items_in_cart {
     return $total_amount;
 }
 
+sub count_items_in_cart {
+    my $self = shift;
+    my $cart_id = get_cart_id($self);
+    my $total_items;
+
+    $total_items
+        = $self->resultset('CartItem')->count_items($cart_id) if ($cart_id);
+
+    return $total_items;
+}
+
 # Return list of items
 sub get_items_in_cart { 
     my $self            = shift;
     my $cart_id         = get_cart_id($self);
 
     my $items_in_cart 
-            = $self->resultset('CartItem')->get_items( $cart_id );
+            = $self->resultset('CartItem')->get_items( $cart_id ) if ($cart_id);
 
     return $items_in_cart ? $items_in_cart : 0;
 }
@@ -197,7 +226,7 @@ sub clear_cart {
 }
 
 sub assign_cart {
-    my $self = shift;
+    my ( $self, $args ) = @_;
     my $customer_id;
     my $cart_by_customer_id;
     my $cart_id_by_customer_id;
@@ -205,11 +234,12 @@ sub assign_cart {
     my $cart_id_by_session_id;
     my %cart_args;
 
-    if ( $self->user ) {
+    if ( $self ) {
     # Logged in
 
         # Get our customer id
-        $customer_id = $self->user->id;
+        $customer_id = $args->{customer_id};
+        #print "customer_id $customer_id" if $customer_id;
 
         # Do we own a cart? whats our cart_id
         $cart_by_customer_id
@@ -219,7 +249,9 @@ sub assign_cart {
 
         # Do we have an anonymous cart? what our anonymous cart id
         $cart_by_session_id
-            = $self->resultset('Cart')->get_cart_by_sid( $self->session_id);
+            = $self->resultset('Cart')->get_cart_by_session_id( 
+                $self->session_id 
+        );
         $cart_id_by_session_id 
             = $cart_by_session_id->id if $cart_by_session_id;
 
@@ -231,10 +263,10 @@ sub assign_cart {
             # Seperate carts
 
                 # Update Cart Items to the customer_cart
-                $self->resultset('CartItem')->set_items_cart_sku(
-                    $cart_id_by_customer_id,
-                    $cart_id_by_session_id,
-                );
+                $self->resultset('CartItem')->set_items_cart_sku( {
+                    cart_id     => $cart_id_by_customer_id,
+                    old_cart_id => $cart_id_by_session_id,
+                } );
 
                 # Delete anonymous cart
                 $self->resultset('Cart')->delete($cart_id_by_session_id);
@@ -243,13 +275,15 @@ sub assign_cart {
                 %cart_args = (
                     id          => $cart_id_by_customer_id,
                     session_id  => $self->session_id,
+                    customer_id => $customer_id,
                 );
                 $self->resultset('Cart')->update(\%cart_args);
 
-            }
+            } 
 
         } elsif ($cart_id_by_session_id) {
         # Found session cart
+
             # Update our customer cart with our current session
             %cart_args = (
                 id              => $cart_id_by_session_id,
@@ -259,12 +293,12 @@ sub assign_cart {
 
             $self->resultset('Cart')->update(\%cart_args);
 
+        } else {
+
         }
-        
         
     } else {
     # Not logged in
-
 
     }
 
@@ -273,6 +307,8 @@ sub assign_cart {
 sub set_shipping {
     my ( $self, $args ) = @_;
     my $cart_id         = get_cart_id($self);
+
+#    my $cart = $self->resultset('Cart')->get_cart($cart_id);
 
     $args->{id} = $cart_id;
     delete $args->{submit};
@@ -296,11 +332,21 @@ sub total_items_in_cart {
     my $self            = shift;
     my $cart_id         = get_cart_id($self);
 
-
-    my $total_items = $self->resultset('CartItem')->count_items($cart_id);
+    my $total_items 
+        = $self->resultset('CartItem')->count_items($cart_id) if ($cart_id);
 
     return $total_items;
 }
+
+sub total_weight_in_cart {
+    my $self            = shift;
+    my $cart_id         = get_cart_id($self);
+
+    my $total_weight = $self->resultset('CartItem')->sum_weight($cart_id);
+
+    return $total_weight;
+}
+
 
 sub destroy_cart {
     my $self            = shift;
@@ -311,8 +357,65 @@ sub destroy_cart {
     
     # Destroy the cart;
     $self->resultset('Cart')->delete($cart_id);
+}
 
+sub set_promo_code {
+    my $self = shift;
+    my $promo_code = shift;
+    my $cart_id = get_cart_id($self);
+
+    $self->resultset('Cart')->set_cart_data( {
+        cart_id      => $cart_id,
+        promo_code   => $promo_code,
+    } );
+}
+
+sub get_promo_code {
+    my ( $self, $promo_code )  = @_;
+
+    $self->resultset('Promotion')->get_promotion($promo_code);
 
 }
 
+sub total_amount {
+    my $self = shift;
+    my $cart_id = get_cart_id($self);
+    my $cart 
+      = $self->resultset('Cart')->get_cart_by_cart_id($cart_id);
+    my $promo = $self->resultset('Promotion')->get_promotion($cart->promo_code);
+
+    my $items_amount    = $self->sum_items_in_cart;
+    my $shipping_amount = $cart->shipping_amount;
+    my $discount_amount;
+    my $total_amount;
+
+    if ($promo) {
+        if ($promo->type eq 'percent') {
+            $discount_amount = $items_amount * ( $promo->amount / 100 );
+        } elsif ($promo->type eq 'discount') {
+            $discount_amount = $promo->amount;
+        } elsif ($promo->type eq '') {
+
+        }
+
+        if ( $promo->code eq "DEMO" ) {
+            $total_amount = ($items_amount - $discount_amount);
+        } else {
+            $total_amount = ($items_amount - $discount_amount) + $shipping_amount;
+        }
+
+    } else {
+        $discount_amount = 0;
+        $total_amount = ($items_amount - $discount_amount) + $shipping_amount;
+    }
+
+    # Set discount amount on database
+    $self->resultset('Cart')->set_cart_data({
+        cart_id         => $cart_id,
+        discount_amount => $discount_amount,
+    });
+
+
+    return $total_amount;
+}
 1;

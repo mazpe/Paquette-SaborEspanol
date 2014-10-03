@@ -58,20 +58,6 @@
       </li>
       <li>
         <a href=" [% c.uri_for(
-          c.controller('Admin::Users').action_for('index')
-        ) %]">
-          - Users
-        </a>
-      </li>
-      <li>
-        <a href="[% c.uri_for(
-          c.controller('Admin::Users').action_for('create')
-        ) %] ">
-          - - create
-        </a>
-      </li>
-      <li>
-        <a href=" [% c.uri_for(
           c.controller('Admin::Customers').action_for('index')
         ) %]">
           - Customers
@@ -92,10 +78,33 @@
         </a>
       </li>
       <li>
-        <a href="[% c.uri_for(
-          c.controller('Admin::Orders').action_for('create')
-        ) %] ">
-          - - create
+        <a href=" [% c.uri_for(
+          c.controller('Admin::Promotions').action_for('index')
+        ) %]">
+          - Promotions
+        </a>
+      </li>
+
+      <li>
+        <a href=" [% c.uri_for(
+          c.controller('Admin::States').action_for('index')
+        ) %]">
+          - States 
+        </a>
+      </li>
+      <li>
+        <a href=" [% c.uri_for(
+          c.controller('Admin::Countries').action_for('index')
+        ) %]">
+          - Coutries
+        </a>
+      </li>
+
+      <li>
+        <a href=" [% c.uri_for(
+          c.controller('Admin::Logout').action_for('index')
+        ) %]">
+          - Logout
         </a>
       </li>
 

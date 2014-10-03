@@ -33,7 +33,7 @@ sub set_password : Local  {
 
     foreach my $user (@users) {
 
-        $user->password('admin');
+        $user->password('password');
         $user->update;
     }
 

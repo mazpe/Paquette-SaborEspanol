@@ -1,0 +1,18 @@
+{\hskip 0.5cm1.\ Greetings!\dotfill4}
+{\hskip 0.5cm2.\ Warming up\dotfill7}
+{\hskip 0.5cm3.\ The Remaining PARI Types\dotfill9}
+{\hskip 0.5cm4.\ Elementary Arithmetic Functions\dotfill14}
+{\hskip 0.5cm5.\ Performing Linear Algebra\dotfill15}
+{\hskip 0.5cm6.\ Using Transcendental Functions\dotfill16}
+{\hskip 0.5cm7.\ Using Numerical Tools\dotfill19}
+{\hskip 0.5cm8.\ Functions Related to Polynomials and Power Series\dotfill21}
+{\hskip 0.5cm9.\ Working with Elliptic Curves\dotfill23}
+{\hskip 0.5cm10.\ Working in Quadratic Number Fields\dotfill27}
+{\hskip 0.5cm11.\ Working in General Number Fields\dotfill32}
+{\sevenrm \hskip 1cm11.1.\ Elements\dotfill32}
+{\sevenrm \hskip 1cm11.2.\ Ideals\dotfill35}
+{\sevenrm \hskip 1cm11.3.\ Class groups and units, {\fam \ttfam \tentt bnf}\dotfill38}
+{\sevenrm \hskip 1cm11.4.\ Class field theory, {\fam \ttfam \tentt bnr}\dotfill40}
+{\sevenrm \hskip 1cm11.5.\ Galois theory over ${\fam \bffam \tenbf Q}$\dotfill41}
+{\hskip 0.5cm12.\ Plotting\dotfill42}
+{\hskip 0.5cm13.\ GP Programming\dotfill49}

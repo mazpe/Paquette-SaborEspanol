@@ -1,0 +1,10 @@
+testing
+[% form.render %]
+
+[% form.render_field('age') %]
+
+<p>
+[% f = form.field('address') %]
+<label class="label" for="[% f.name %]">[% f.label %]:</label>
+<input type="text" name="[% f.name %]" id="[% f.name %]" value="[% f.fif %]">
+</p>

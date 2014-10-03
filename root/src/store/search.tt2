@@ -1,0 +1,16 @@
+
+<h2> Search </h2>
+<div id="content_product">
+
+Enter your search criteria:
+<form name="search_form" method="post" action="[% c.uri_for(
+    c.controller('Store').action_for('search_results')
+    ) %]">
+    <input type="text" name="search">
+    <input type="submit" name="Submit" value="Submit">
+</form>
+            
+</div><!-- end of content_product -->
+<br>
+<div class="clear br">&nbsp;</div>
+

@@ -25,7 +25,7 @@
 [% END %]
     <td>[% item.sku %]</td>
     <td>[% item.product.name %]</td>
-    <td align="center">[% item.quantity %]"></td>
+    <td align="center">[% item.quantity %]</td>
     <td align="right">$[% item.product.price | format('%0.2f') %]</td>
     <td align="right">$[% subtotal | format('%0.2f') %]</td>
   </tr>

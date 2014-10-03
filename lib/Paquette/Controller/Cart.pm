@@ -17,6 +17,21 @@ Catalyst Controller.
 
 =cut
 
+sub auto : Local {
+    my ( $self, $c ) = @_;
+    my $cart_size;
+    my $categories;
+
+    $cart_size = $c->model('Cart')->count_items_in_cart;
+    # Get all my parent categories
+    $categories = [$c->model('PaquetteDB::Categories')->search(
+        { parent_id => 0 }
+    )];
+
+    $c->stash->{cart_size}      = $cart_size;
+    $c->stash->{categories}     = $categories;
+
+}
 
 =head2 index
 
@@ -111,7 +126,6 @@ sub remove_item : Chained('load') : PathPart('remove_item') : Args(0) {
     
         $c->response->status(404);
         $c->detach;    
-
     }
 
 }

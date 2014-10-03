@@ -1,0 +1,14 @@
+<h2>Checkout :: Complete Order :: PayPal </h2>
+
+<div id="content_block">
+<strong>
+Please complete the order by click on the button below and submitting your paypal payment.
+</strong>
+<br />
+<br />
+<div align="center">
+[% button %]
+</div>
+
+</div>
+<br />

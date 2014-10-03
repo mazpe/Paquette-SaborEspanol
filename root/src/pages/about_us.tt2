@@ -6,7 +6,7 @@
   <tr>
     <td colspan="2"><p>We bring you one step closer to Spain by delivering the best variety of the Spanish food and products to your home including the exquisite Black Hoof (pata negra) Ham.</p> 
 <br>
-<p>Una gran variedad de los mejores productos espanoles de maxima calidad llevados a tu hogar a los majores precios del Mercado.</p>
+<p>Una gran variedad de los mejores productos espanoles de maxima calidad llevados a tu hogar a los mejores precios del Mercado.</p>
       </p>
       <p><br /><br />
       </p></td>
@@ -27,7 +27,7 @@ Red has been known to increase appetite in restaurants.</span></td>
     <td colspan="2" align="center"><img src="[% c.uri_for('/static/images/saborespanol.jpg') %]" width="527" height="108" /></td>
     </tr>
   <tr>
-    <td colspan="2" align="center"><br />      <img src="[% c.uri_for('/static/images/sabor-espanol.gif') %]" width="199" height="174" /></td>
+    <td colspan="2" align="center"><br />      <img src="[% c.uri_for('/static/images/sabor-espanol.gif') %]" width="200" height="200" /></td>
     </tr>
 </table>
 

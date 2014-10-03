@@ -1,0 +1,41 @@
+This is TeX, Version 3.141592 (Web2C 7.5.6) (format=tex 2008.10.8)  27 OCT 2009 09:46
+**refcard.tex
+(./refcard.tex (./parimacro.tex
+\std=\read0
+ (./paricfg.tex)
+\toc=\write0
+\out=\write1
+\aux=\write2
+\index=\write3
+
+FIRST PASS
+No aux file.
+\appno=\count26
+\chapno=\count27
+\secno=\count28
+\subsecno=\count29
+\subsubsecno=\count30
+\euffam=\fam8
+)
+\columnsperpage=\count31
+\intercolumnskip=\dimen16
+\columna=\box16
+\columnb=\box17
+ [3 columns per page]
+\keyindent=\dimen17
+\libox=\box18
+\liwidth=\dimen18
+ [1
+\openout3 = `refcard.idx'.
+
+\openout2 = `refcard.aux'.
+
+] [2] [3]
+Underfull \hbox (badness 10000) in paragraph at lines 996--1005
+
+
+\hbox(0.0+0.0)x231.26378
+.\glue(\rightskip) 0.0
+
+[4] )
+Output written on refcard.dvi (4 pages, 50472 bytes).

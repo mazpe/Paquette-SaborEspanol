@@ -16,8 +16,11 @@ function submitForm()
 <table width='540' cellpadding='0' cellspacing='0' valign='top' border='0' id="customer_info">
   <tr>
     <td colspan="2">
-    <div align="center">
-      1. CUSTOMER&nbsp;&nbsp;
+    <div id="checkout_header" align="center">
+    <a href="[% c.uri_for(c.controller('Checkout').action_for('customer')) %]">
+        1. CUSTOMER
+    </a>    
+      &nbsp;&nbsp;
       <font color='#990000'><b>2. SHIPPING</b></font>&nbsp;&nbsp;
       3. PAYMENT&nbsp;&nbsp;
       4. CONFIRMATION
@@ -50,7 +53,7 @@ function submitForm()
                       [% customer.bill_address1 %]<br />
                       [% customer.bill_address2 %]<br />
                       [% customer.bill_city %], [% customer.bill_state %]
-                      [% customer.bill_zip %]<br />
+                      [% customer.bill_zip_code %]<br />
                       [% customer.bill_country %]<br />
                       [% customer.bill_phone %]<br />
                       [% customer.bill_email %]<br />
@@ -69,7 +72,7 @@ function submitForm()
                     [% customer.ship_address1 %]<br />
                     [% customer.ship_address2 %]<br />
                     [% customer.ship_city %], [% customer.bill_state %]
-                    [% customer.ship_zip %]<br />
+                    [% customer.ship_zip_code %]<br />
                     [% customer.ship_country %]<br />
                     [% customer.ship_phone %]<br />
                     [% customer.ship_email %]<br />
@@ -82,7 +85,7 @@ function submitForm()
 
       <table border="0">
         <tr>
-          <th colspan="2">CHOOSE SHIPPING METHOD:</th>
+          <th colspan="2">CHOOSE SHIPPING METHOD: [% rate %] </th>
         </tr>
         <tr>
           <td colspan="2" valign=top>
@@ -90,31 +93,27 @@ function submitForm()
           </td>
         </tr>
 
+        [% FOREACH ship IN shipping %]
         <tr>
           <td valign=top>
-            <input type=radio name='shipping' value='USPS:5.95'>
+            <input type=radio name='shipping' 
+                value='[% ship.key %]:[% ship.value.rate %]'>
           </td>
-          <td nowrap>US Mail ($5.95)
-            <br><i>Estimated Arrival 3 to 7 days
-          </td>
-        </tr>
-        <tr>
-          <td valign=top>
-            <input type=radio name='shipping' value='UPS:6.12'>
-          </td>
-          <td nowrap>Ground ($6.12)
-            <br><i>Estimated Arrival Thursday 08/13
+          <td nowrap>[% ship.key | replace('_', ' ') %] 
+            ($[% ship.value.rate | format('%0.2f')  %])
+          [% IF ship.value.days %]
+            <br><i>* Delivers in  [% ship.value.days %] days
+          [% ELSE %]
+            <br><i>* Delivers in 5 to 7 days
+          [% END %]
           </td>
         </tr>
-        <tr>
-          <td valign=top>
-            <input type=radio name='shipping' value='UPS-NEXTDAY:22.43'>
-          </td>
-          <td nowrap>Next Day Air ($22.43)
-            <br><i>Estimated Arrival Wednesday 08/12 </a></i>
-          </td>
-        </tr>
+        [% END %]
+
       </table>
+
+    <br />
+    <div align="left">&nbsp;&nbsp;<strong> US SHIPPING ONLY</strong> </div>
 
     </td>
   </tr>

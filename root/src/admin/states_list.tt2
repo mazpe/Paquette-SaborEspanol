@@ -1,0 +1,39 @@
+[% META title = 'List States' -%]
+
+
+<div id="states_block">
+<a href="[% c.uri_for(c.controller.action_for('creation')) %]">
+<h3>Create a State</h3>
+</a>
+  <table border="0" cellspacing="0" cellpadding="0" id="hor-minimalist-a">
+    <tr>
+      <th>Name</th>
+      <th>Abbrevation</th>
+      <th>Edit / Delete</th>
+    </tr>
+
+[% FOREACH state IN states %]
+    <tr>
+      <td>[% state.name %] &nbsp;</td>
+      <td>[% state.abbr %] &nbsp;</td>
+      <td>
+        <a href="[% c.uri_for(
+          c.controller.action_for('edit'), [state.id]
+        ) %]">
+          edit
+        </a>
+        -
+        <a href="[% c.uri_for(
+          c.controller.action_for('delete'), [state.id]
+        ) %]">
+          delete
+        </a>
+
+      </td>
+    </tr>
+[% END %]
+
+</table>
+
+</div><!-- end states_block -->
+

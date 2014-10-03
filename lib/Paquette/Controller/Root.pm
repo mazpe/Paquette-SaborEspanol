@@ -23,51 +23,33 @@ Paquette::Controller::Root - Root Controller for Paquette
 
 =cut
 
-sub auto : Local {
-    my ( $self, $c ) = @_;
-    my $cart_size;
-
-    # Get all my parent categories
-    my $categories = [$c->model('PaquetteDB::Categories')->search(
-        { parent_id => 0 },
-    )];
-
-    $cart_size = $c->model('PaquetteDB::CartItem')->search( {
-         cart_id => $c->session->{cart_id}
-    } );
-
-    #$cart_size = $c->model('Cart')->total_items_in_cart;
-
-    $c->stash->{cart_size}  = $cart_size->count;
-    $c->stash->{categories} = $categories;
-}
-
 =head2 index
 
 =cut
 
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
+    my $categories;
+    my $cart_size;
 
-    my $categories = [$c->model('PaquetteDB::Categories')->search(
-        { parent_id => 0 },
+    $categories = [$c->model('PaquetteDB::Categories')->search(
+        { parent_id => 0, active => 1 },
     )];
-
     $c->stash->{'categories'}    = $categories;
 
-#    $c->response->redirect($c->uri_for($c->controller('Customers')->action_for(
-#        'pre_registration'
-#    )));
-    
-    my $url = "/css";
+    $cart_size = $c->model('Cart')->count_items_in_cart;
+    $c->stash->{cart_size}  = $cart_size;
 
-    $c->log->debug($c->uri_for('/static/css/style.css'));
+    #$c->response->redirect($c->uri_for($c->controller('Customers')->action_for(
+    #    'pre_registration'
+    #)));
     
     $c->stash->{template} = "index.tt2";
 }
 
 sub default :Path {
     my ( $self, $c ) = @_;
+
     $c->response->body( 'Page not found' );
     $c->response->status(404);
 }

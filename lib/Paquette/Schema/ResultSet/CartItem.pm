@@ -90,19 +90,19 @@ sub set_items_cart_id {
 }
 
 sub set_items_cart_sku {
-    my ( $self, $cart_id, $old_cart_id ) = @_;
+    my ( $self, $args ) = @_;
     my $rs;
     my $cart_sku;
     my $old_cart_sku;
 
     # Resulet with items in our new cart
-    $rs = $self->search( { cart_id => $old_cart_id } );
+    $rs = $self->search( { cart_id => $args->{old_cart_id} } );
 
     # Loop through all items in cart
     while ( my $item = $rs->next ) {
     
         # New cart_sku
-        $cart_sku = $cart_id. '' .$item->sku;
+        $cart_sku = $args->{cart_id}. '' .$item->sku;
 
         # Check If our item SKU is already on the database
         if (my $found_item = $self->find( $cart_sku, { key => 'cart_sku' } ) ) {
@@ -113,7 +113,10 @@ sub set_items_cart_sku {
 
         } else {
 
-            $item->update( { cart_id => $cart_id, cart_sku => $cart_sku } );
+            $item->update( { 
+                cart_id => $args->{cart_id}, 
+                cart_sku => $cart_sku 
+            } );
         }
 
    } 
@@ -155,6 +158,29 @@ sub clear_items {
 
     return;
 }
+
+sub sum_weight {
+    my ( $self, $args ) = @_;
+    my $rs;
+    my $weight;
+
+    $rs = $self->search(
+        { 'cart_id' => $args },
+        { join => 'product', }
+
+    );
+
+    while ( my $item = $rs->next ) {
+        if ($item->product->weight_type eq "lb") {
+            $weight += $item->quantity * $item->product->weight;
+        } elsif ($item->product->weight_type eq "oz") {
+            $weight += ($item->quantity * $item->product->weight) / 16;
+        }
+    }
+
+    return $weight;
+}
+
 
 =head1 AUTHOR
 

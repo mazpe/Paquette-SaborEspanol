@@ -3,7 +3,10 @@ package Paquette::Controller::Customers;
 use Moose;
 BEGIN { extends 'Catalyst::Controller' }
 use Paquette::Form::Customer;
+use Paquette::Form::LostPassword;
 use Data::Dumper;
+use Crypt::Blowfish;
+use Crypt::RSA;
 
 has 'form' => ( 
     isa => 'Paquette::Form::Customer', 
@@ -11,6 +14,13 @@ has 'form' => (
     lazy => 1, 
     default => sub { Paquette::Form::Customer->new },
 );
+has 'lost_password_form' => (
+    isa => 'Paquette::Form::LostPassword',
+    is => 'ro',
+    lazy => 1,
+    default => sub { Paquette::Form::LostPassword->new },
+);
+
 
 =head1 NAME
 
@@ -23,6 +33,22 @@ Catalyst Controller.
 =head1 METHODS
 
 =cut
+
+sub auto : Local {
+    my ( $self, $c ) = @_;
+    my $cart_size;
+    my $categories;
+
+    $cart_size = $c->model('Cart')->count_items_in_cart;
+    # Get all my parent categories
+    $categories = [$c->model('PaquetteDB::Categories')->search(
+        { parent_id => 0, active => 1 }
+    )];
+
+    $c->stash->{cart_size}      = $cart_size;
+    $c->stash->{categories}     = $categories;
+
+}
 
 =head2 index
 
@@ -37,18 +63,19 @@ sub index :Path :Args(0) {
 
 sub login : Local {
     my ($self, $c) = @_;
+    my $auth;
 
     # Get the username and password from form
     my $username = $c->request->params->{username} || "";
     my $password = $c->request->params->{password} || "";
 
     # If the username and password values were found in form
-    if ($username && $password) {
+    if ( $username && $password ) {
 
         # Attempt to log the user in
         # Using searchargs to authenticate because of non-standard table layout
         # We can also use it to accept username or nickname
-        my $auth = $c->authenticate(
+        $auth = $c->authenticate(
             {
                 password    => $password,
                 'dbix_class' => {
@@ -64,7 +91,8 @@ sub login : Local {
         if ($auth) {
 
             # Assign cart_id/session_id to user
-            $c->model('Cart')->assign_cart;
+            #$c->model('Cart')->assign_cart;
+            $c->model('Cart')->assign_cart( { customer_id => $c->user->id } );
 
             # If successful, then let them use the application
             $c->response->redirect($c->uri_for(
@@ -89,6 +117,103 @@ sub logout : Local {
 
     # Send the user to the starting point
     $c->response->redirect($c->uri_for('/'));
+
+}
+
+sub password_lost1 : Local {
+    my ( $self, $c ) = @_;
+    my $form;
+    my $subject;
+    my $order_id;
+    my $cipher;
+    my $ciphertext;
+    my $key;
+
+    if ( $c->req->params->{submit} && $c->req->params->{email} ) {
+
+        $key = pack("h16", "0123456789ABCDEF");
+        $cipher = new Crypt::Blowfish $key;
+        $ciphertext = $cipher->encrypt("plantext");
+$c->log->debug($ciphertext);
+        $subject = 'Password reset: '. $c->req->params->{email};
+
+        # Send email
+        $c->stash->{email} = {
+            to              => $c->req->params->{email},
+            from            => 'support@saborespanol.com',
+            subject         => $subject,
+            template        => 'password_lost.tt2',
+            content_type    => 'text/plain',
+            code      => $ciphertext,
+        };
+
+        $c->forward( $c->view('Email::Template') );
+
+    } else {
+
+        # Set our template and form to use
+        $c->stash(
+            template    => 'customers/password_lost.tt2',
+        );
+
+    }
+
+}
+
+sub password_lost : Local {
+    my ( $self, $c ) = @_;
+    my $form;
+    my $subject;
+    my $order_id;
+    my $rsa = new Crypt::RSA;
+
+    if ( $c->req->params->{submit} && $c->req->params->{email} ) {
+
+        my ($public, $private) = 
+        $rsa->keygen ( 
+            Identity  => 'Lord Macbeth <macbeth@glamis.com>',
+            Size      => 1024,  
+            Password  => 'A day so foul & fair', 
+            Verbosity => 1,
+        ) or die $rsa->errstr();
+
+        my $cyphertext = 
+        $rsa->encrypt ( 
+            Message    => $c->req->params->{email},
+            Key        => $public,
+            Armour     => 1,
+        ) || die $rsa->errstr();
+
+$c->log->debug($cyphertext);
+
+        $subject = 'Password reset: '. $c->req->params->{email};
+
+        # Send email
+        $c->stash->{email} = {
+            to              => $c->req->params->{email},
+            from            => 'support@saborespanol.com',
+            subject         => $subject,
+            template        => 'password_lost.tt2',
+            content_type    => 'text/plain',
+            code      => $cyphertext,
+        };
+
+        $c->forward( $c->view('Email::Template') );
+
+    } else {
+
+        # Set our template and form to use
+        $c->stash(
+            template    => 'customers/password_lost.tt2',
+        );
+
+    }
+
+}
+
+
+sub password_reset : Local {
+    my ( $self, $c ) = @_;
 
 }
 
@@ -203,13 +328,13 @@ sub register_do : Local {
 
         if ( $customer ) {
         # Customer was created and cart was imported
-
             $c->response->redirect(
                     $c->uri_for( $self->action_for('index') )
                 . '/' );
 
         } else {
         # Customer or Cart were not created
+print "customer redirect to index";
 
         }
 
@@ -229,6 +354,7 @@ sub pre_registration :Local {
     my ( $self, $c ) = @_;
 
     $c->stash->{template} = "customers/pre_registration.tt2";
+    $c->forward( $c->view('TTNoWrapper') );
 
 }
 
@@ -262,6 +388,7 @@ if ($first_name && $email) {
         $c->flash->{error_msg} = "First name and Email are required";
 
 }
+
 
     # Redirect visitors to the pre_registration page
     $c->response->redirect($c->uri_for($self->action_for('pre_registration')));    

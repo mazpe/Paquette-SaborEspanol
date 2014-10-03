@@ -144,6 +144,8 @@ __PACKAGE__->add_columns(
     is_nullable => 0,
     size => 128,
   },
+  "active",
+  { data_type => "INT", default_value => 1, is_nullable => 0, size => 1 },
   "created",
   {
     data_type => "DATETIME",
@@ -163,8 +165,8 @@ __PACKAGE__->set_primary_key("id");
 __PACKAGE__->add_unique_constraint("email", ["email"]);
 
 
-# Created by DBIx::Class::Schema::Loader v0.04005 @ 2009-09-10 08:14:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:9Ano0UwFfdwk8YIx+iDHNA
+# Created by DBIx::Class::Schema::Loader v0.04005 @ 2010-04-12 12:18:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:GXY/xMdZjcNatiXfd0YEgQ
 __PACKAGE__->add_columns(
     "created",
     { data_type => 'datetime', set_on_create => 1 },

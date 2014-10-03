@@ -21,7 +21,7 @@ Catalyst Model.
 
 sub build_per_context_instance {
     my ( $self, $c ) = @_;
-    
+
     return MyCart->new(
         user            => $c->user,
         session         => $c->session,

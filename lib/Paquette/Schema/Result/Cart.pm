@@ -54,13 +54,10 @@ __PACKAGE__->add_columns(
     is_nullable => 0,
     size => 128,
   },
-  "credit_card_expiration",
-  {
-    data_type => "VARCHAR",
-    default_value => undef,
-    is_nullable => 0,
-    size => 128,
-  },
+  "credit_card_exp_month",
+  { data_type => "INT", default_value => undef, is_nullable => 0, size => 2 },
+  "credit_card_exp_year",
+  { data_type => "INT", default_value => undef, is_nullable => 0, size => 4 },
   "credit_card_cvv",
   {
     data_type => "VARCHAR",
@@ -74,6 +71,20 @@ __PACKAGE__->add_columns(
     default_value => undef,
     is_nullable => 0,
     size => 128,
+  },
+  "promo_code",
+  {
+    data_type => "VARCHAR",
+    default_value => undef,
+    is_nullable => 1,
+    size => 10,
+  },
+  "discount_amount",
+  {
+    data_type => "DECIMAL",
+    default_value => "0.00",
+    is_nullable => 1,
+    size => 9,
   },
   "created",
   {
@@ -95,8 +106,8 @@ __PACKAGE__->add_unique_constraint("session_id", ["session_id"]);
 __PACKAGE__->add_unique_constraint("customer_id", ["customer_id"]);
 
 
-# Created by DBIx::Class::Schema::Loader v0.04005 @ 2009-09-10 08:14:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7yaTSriKYMK67Y+wFN8UqA
+# Created by DBIx::Class::Schema::Loader v0.04005 @ 2010-04-12 12:18:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:wUvjzWTpKqyHMEr56skgKw
 __PACKAGE__->add_columns(
     "created",
     { data_type => 'datetime', set_on_create => 1 },

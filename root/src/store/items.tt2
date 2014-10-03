@@ -49,6 +49,7 @@ function submitItemDescForm()
         <div id="content_item_price">
             $[% items.price %]
             <span id="content_item_sku">/ SKU: [% items.sku %]</span>
+            &nbsp;&nbsp;
         </div>
         </div><!-- end of content_item_detail_text -->  
         <div class="content_add_to_cart">

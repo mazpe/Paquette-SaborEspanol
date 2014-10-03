@@ -52,6 +52,22 @@ has_field 'description'        => (
     cols                => 30,
     rows                => 5,
 );
+has_field 'weight'        => (
+    type                => 'Text',
+    label               => 'Weight',
+    required            => 0,
+    required_message    => 'You must enter a weight',
+    css_class           => 'form_col_a',
+);
+has_field 'weight_type' => (
+    type                => 'Select',
+    label               => 'Weight Type',
+    required            => 0,
+    required_message    => 'You must select a weight type',
+    css_class           => 'form_col_a',
+    options             => [{ value => 'oz', label => 'oz'},
+                            { value => 'lb', label => 'lb'}]
+);
 has_field 'price'        => (
     type                => 'Text',
     label               => 'Price',
@@ -59,6 +75,16 @@ has_field 'price'        => (
     required_message    => 'You must enter a Price',
     css_class           => 'form_col_a',
 );
+has_field 'active' => (
+    type                => 'Select',
+    label               => 'Active Status',
+    required            => 0,
+    required_message    => 'You must select active or inactive ',
+    css_class           => 'form_col_a',
+    options             => [{ value => '1', label => 'Active'},
+                            { value => '0', label => 'Inactive'}]
+);
+
 has_field 'submit' => ( type => 'Submit', value => 'Submit' );
 
 

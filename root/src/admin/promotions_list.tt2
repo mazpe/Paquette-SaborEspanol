@@ -1,0 +1,43 @@
+[% META title = 'List Promotions' -%]
+
+
+<div id="promotions_block">
+<a href="[% c.uri_for(c.controller.action_for('creation')) %]">
+<h3>Create a Promotion</h3>
+</a>
+  <table border="0" cellspacing="0" cellpadding="0" id="hor-minimalist-a">
+    <tr>
+      <th>Description</th>
+      <th>Code</th>
+      <th>Amount</th>
+      <th>Type</th>
+      <th>Edit / Delete</th>
+    </tr>
+
+[% FOREACH promotion IN promotions %]
+    <tr>
+      <td>[% promotion.description %] &nbsp;</td>
+      <td>[% promotion.code %] &nbsp;</td>
+      <td>[% promotion.amount %] &nbsp;</td>
+      <td>[% promotion.type %] &nbsp;</td>
+      <td>
+        <a href="[% c.uri_for(
+          c.controller.action_for('edit'), [promotion.id]
+        ) %]">
+          edit
+        </a>
+        -
+        <a href="[% c.uri_for(
+          c.controller.action_for('delete'), [promotion.id]
+        ) %]">
+          delete
+        </a>
+
+      </td>
+    </tr>
+[% END %]
+
+</table>
+
+</div><!-- end promotions_block -->
+

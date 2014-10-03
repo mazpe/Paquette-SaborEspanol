@@ -1,0 +1,8 @@
+[% META title = 'Create States' -%]
+
+
+<div id="states_block">
+
+[% form.render %]
+
+</div>

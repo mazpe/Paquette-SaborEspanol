@@ -135,7 +135,7 @@ sub get_cart_by_customer_id {
     return $row;
 }
 
-sub get_cart_by_sid {
+sub get_cart_by_session_id {
     my ( $self, $args ) = @_;
     my $row;
 
@@ -143,6 +143,16 @@ sub get_cart_by_sid {
 
     return $row;
 }
+
+sub get_cart_by_cart_id {
+    my ( $self, $args ) = @_;
+    my $row;
+
+    $row = $self->find( $args );
+
+    return $row;
+}
+
 
 sub set_cart_info {
 
@@ -209,7 +219,32 @@ sub set_payment_info {
 
 }
 
+sub set_promo_code {
+    my ( $self, $args ) = @_;
+    
+    # Find my cart
+    my $cart = $self->find( $args->{id} );
 
+    # If we found my cart, update the promotional code
+    if ($cart) {
+        $cart->update( {
+            promo_code => $args->{promo_code}
+        } );
+    } 
+
+}
+
+sub set_cart_data {
+    my ( $self, $args ) = @_;
+    # Find my cart
+    my $cart = $self->find( $args->{cart_id} );
+
+    if ($cart) {
+        delete $args->{cart_id};
+        $cart->update( $args );
+    }
+
+}
 
 
 =head1 AUTHOR

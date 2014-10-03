@@ -1,0 +1,46 @@
+[% META title = 'List Customers' -%]
+
+
+<div id="customers_block">
+<a href="[% c.uri_for(c.controller.action_for('create')) %]">
+<h3>Create a Customer</h3>
+</a>
+  <table border="0" cellspacing="1" cellpadding="1" id="hor-minimalist-a">
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>City</th>
+      <th>Active</th>
+      <th>Edit / Delete</th>
+    </tr>
+
+[% FOREACH customer IN customers %]
+    <tr>
+      <td>[% customer.id %]</td>
+      <td>[% customer.bill_first_name %] &nbsp;</td>
+      <td>[% customer.bill_last_name %] &nbsp;</td>
+      <td>[% customer.email %] &nbsp;</td>
+      <td>[% customer.bill_city %] &nbsp;</td>
+      <td>[% customer.active %] &nbsp;</td>
+      <td>
+        <a href="[% c.uri_for(
+          c.controller.action_for('edit'), [customer.id]
+        ) %]">
+        edit
+        </a>
+         / 
+        <a href="[% c.uri_for(
+          c.controller.action_for('delete'), [customer.id]
+        ) %]">
+        delete
+        </a>
+      </td>
+    </tr>
+[% END %]
+
+</table>
+
+</div><!-- end customers_block -->
+

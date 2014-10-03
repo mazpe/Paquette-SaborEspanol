@@ -156,6 +156,28 @@ sub clear_items {
     return;
 }
 
+sub sum_weight {
+    my ( $self, $args ) = @_;
+    my $rs;
+    my $weight;
+
+    $rs = $self->search(
+        { 'order_id' => $args }
+
+    );
+
+    while ( my $item = $rs->next ) {
+        if ($item->weight_type eq "lb") {
+            $weight += $item->quantity * $item->weight;
+        } elsif ($item->weight_type eq "oz") {
+            $weight += ($item->quantity * $item->weight) / 16;
+        }
+    }
+
+    return $weight;
+}
+
+
 =head1 AUTHOR
 
 Lester Ariel Mesa,,305-402-6717,

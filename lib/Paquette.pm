@@ -14,11 +14,12 @@ use Catalyst::Runtime 5.80;
 #                 directory
 
 use parent qw/Catalyst/;
-use Catalyst qw/-Debug
+use Catalyst qw/ 
+                -Debug
                 ConfigLoader
                 Static::Simple
-
                 StackTrace
+
                 SubRequest
             
                 Authentication
@@ -44,16 +45,16 @@ __PACKAGE__->config(
     default_view    => 'TT',
     'View::Email::Template' => {
         default => {
-            #content_type => 'text/html',
+            content_type => 'text/plain',
             charset => 'utf-8',
             view => 'TTEmail',
         },
         sender => {
             mailer => 'SMTP',
             mailer_args => {
-                Host     => 'mail.gbrnd.com', # defaults to localhost
-                username => 'web71_admin',
-                password => '4dm1n',
+                Host     => 'mail.server.com', # defaults to localhost
+                username => 'username',
+                password => 'password',
             }
         },
         template_prefix => 'email',
@@ -61,14 +62,34 @@ __PACKAGE__->config(
 
 );
 
-__PACKAGE__->config->{'Plugin::Authentication'} = {
-        default => {
-            class           => 'SimpleDB',
-            user_model      => 'PaquetteDB::Customer',
-            password_type   => 'self_check',
-        },
+#__PACKAGE__->config->{'Plugin::Authentication'} = {
+#        default => {
+#            class           => 'SimpleDB',
+#            #user_model      => 'PaquetteDB::Customer',
+#            user_class      => 'PaquetteDB::Customer',
+#            password_type   => 'self_check',
+#        },
 
-    };
+#    };
+
+__PACKAGE__->config(
+    'Plugin::Authentication' => {
+        default_realm => 'customers',
+        realms => {
+            customers => {
+                credential => {
+                    class          => 'Password',
+                    password_field => 'password',
+                    password_type  => 'self_check'
+                },
+                store => {
+                    class => 'DBIx::Class',
+                    user_model => 'PaquetteDB::Customer',
+                }
+            }
+        }
+    },
+);
 
 # Start the application
 __PACKAGE__->setup();

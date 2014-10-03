@@ -1,0 +1,39 @@
+[% META title = 'List Countries' -%]
+
+
+<div id="countries_block">
+<a href="[% c.uri_for(c.controller.action_for('creation')) %]">
+<h3>Create a Country</h3>
+</a>
+  <table border="0" cellspacing="0" cellpadding="0" id="hor-minimalist-a">
+    <tr>
+      <th>Name</th>
+      <th>Abbrevation</th>
+      <th>Edit / Delete</th>
+    </tr>
+
+[% FOREACH country IN countries %]
+    <tr>
+      <td>[% country.name %] &nbsp;</td>
+      <td>[% country.abbr %] &nbsp;</td>
+      <td>
+        <a href="[% c.uri_for(
+          c.controller.action_for('edit'), [country.id]
+        ) %]">
+          edit
+        </a>
+        -
+        <a href="[% c.uri_for(
+          c.controller.action_for('delete'), [country.id]
+        ) %]">
+          delete
+        </a>
+
+      </td>
+    </tr>
+[% END %]
+
+</table>
+
+</div><!-- end countries_block -->
+

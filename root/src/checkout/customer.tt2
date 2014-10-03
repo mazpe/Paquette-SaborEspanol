@@ -7,6 +7,7 @@ var ShipAddress1 = "";
 var ShipAddress2 = "";
 var ShipCity = "";
 var ShipState = "";
+var ShipCountry = "";
 var ShipStateIndex = 0;
 var ShipZipCode = "";
 var ShipPhone = "";
@@ -21,6 +22,8 @@ function InitSaveVariables(form) {
     ShipZipCode = form.ship_zip_code.value;
     ShipStateIndex = form.ship_state.selectedIndex;
     ShipState = form.ship_state[ShipStateIndex].value;
+    ShipCountryIndex = form.ship_country.selectedIndex;
+    ShipCountry = form.ship_country[ShipCountryIndex].value;
     ShipPhone = form.ship_phone.value;
 }
 
@@ -35,6 +38,7 @@ function ShipToBillPerson(form) {
         form.ship_city.value = form.bill_city.value;
         form.ship_zip_code.value = form.bill_zip_code.value;
         form.ship_state.selectedIndex = form.bill_state.selectedIndex;
+        form.ship_country.selectedIndex = form.bill_country.selectedIndex;
         form.ship_phone.value = form.bill_phone.value;
     } else {
         form.ship_first_name.value = ShipFirstName;
@@ -45,6 +49,7 @@ function ShipToBillPerson(form) {
         form.ship_city.value = ShipCity;
         form.ship_zip_code.value = ShipZipCode;       
         form.ship_state.selectedIndex = ShipStateIndex;
+        form.ship_country.selectedIndex = ShipCountryIndex;
         form.ship_phone.value = ShipPhone;       
    }
 }
@@ -61,6 +66,8 @@ function submitForm()
 <form method="post" action="[% c.uri_for(
     c.controller('Checkout').action_for('customer')
 ) %]" name="infocollect">
+<input type="hidden" name="new" value="[% new %]">
+
 <table width='540' cellpadding='0' cellspacing='0' align='center' border='0' 
     id="customer_info">
 <tr>
@@ -71,17 +78,25 @@ function submitForm()
     4 CONFIRMATION
   </td>
 </tr>
-
 <tr>
-  <td>
-    <strong>Bill To Information</strong><br />
-    Items with an <font color='#990000'>*</font> are required.
-  </td>
-  <td>
-    <strong>Ship To Information</strong><br />
-    <div align='right'>
+  <td colspan="2">
+     <div align='right'>
       <input type='submit' name='submit' value='Continue'
         onclick="submitForm()"  />
+    </div>
+  </td>
+</tr>
+<tr>
+  <td>
+    <div align="center">
+    <strong>Bill To Information</strong><br />
+    Items in <strong>BOLD</strong> are required.
+    </div>
+  </td>
+  <td>
+    <div align="center" >
+    <strong>Ship To Information</strong><br />
+    <br />
     </div>
   </td>
 </tr>
@@ -92,25 +107,25 @@ function submitForm()
   <td class='cartform'>
     <table cellpadding='0' cellspacing='0' align='left' border='0'>
       <tr>
-        <td>[% form.render_field('bill_first_name') %]</td>
+        <td><strong>[% form.render_field('bill_first_name') %]</strong></td>
       </tr>
       <tr>
-        <td>[% form.render_field('bill_last_name') %]</td>
+        <td><strong>[% form.render_field('bill_last_name') %]</strong></td>
       </tr>
       <tr>
         <td>[% form.render_field('bill_company') %]</td>
       </tr>
       <tr>
-        <td>[% form.render_field('bill_address1') %]</td>
+        <td><strong>[% form.render_field('bill_address1') %]</strong></td>
       </tr>
       <tr>
         <td>[% form.render_field('bill_address2') %]</td>
       </tr>
       <tr>
-        <td>[% form.render_field('bill_city') %]</td>
+        <td><strong>[% form.render_field('bill_city') %]</strong></td>
       </tr>
       <tr>
-        <td>
+        <td><strong>
         [% f = form.field('bill_state') %]
         <div class="form_col_a">
         <label class="label" for="[% f.name %]">[% f.label %]: </label>
@@ -124,10 +139,11 @@ function submitForm()
           [% END %] 
         </select>
         </div>
+        </strong>
         </td>
       </tr>
       <tr>
-        <td>
+        <td><strong>
         [% f = form.field('bill_country') %]
         <div class="form_col_a">
         <label class="label" for="[% f.name %]">[% f.label %]: </label>
@@ -141,28 +157,27 @@ function submitForm()
           [% END %]
         </select>
         </div>
+        </strong>
         </td>
       </tr>
       <tr>
-        <td>[% form.render_field('bill_zip_code') %]</td>
+        <td><strong>[% form.render_field('bill_zip_code') %]</strong></td>
       </tr>
       <tr>
-        <td>[% form.render_field('bill_phone') %]</td>
+        <td><strong>[% form.render_field('bill_phone') %]</strong></td>
       </tr>
       <tr>
-        <td>[% form.render_field('email') %]</td>
+        <td><strong>[% form.render_field('email') %]</strong></td>
       </tr>
       <tr>
-        <td>[% form.render_field('password') %]</td>
+        <td><strong>[% form.render_field('password') %]</strong></td>
       </tr>
       <tr>
-        <td>[% form.render_field('password_conf') %]</td>
+        <td><strong>[% form.render_field('password_conf') %]</strong></td>
       </tr>
       <tr>
         <td align="center">
-          <input type='checkbox' name='copy' value="checkbox" 
-            onclick="javascript:ShipToBillPerson(this.form);" />
-            Ship to my billing address
+        &nbsp;
         </td>
       </tr>
     </table>
@@ -170,13 +185,19 @@ function submitForm()
 
 <!-- RIGHT COLUMN -->
 
-  <td class='cartform'>
+  <td class='cartform' valign="top">
+            <div style="color:red;font-weight:bold">
+          &nbsp;&nbsp;&nbsp;<input type='checkbox' name='copy' value="checkbox"
+            onclick="javascript:ShipToBillPerson(this.form);" />
+            Ship to my billing address
+            </div>
+
     <table cellpadding='0' cellspacing='0' align='left' border='0'>
       <tr>
-        <td>[% form.render_field('ship_first_name') %]</td>
+        <td><strong>[% form.render_field('ship_first_name') %]</strong></td>
       </tr>
       <tr>
-        <td>[% form.render_field('ship_last_name') %]</td>
+        <td><strong>[% form.render_field('ship_last_name') %]</strong></td>
       </tr>
       <tr>
         <td>[% form.render_field('ship_company') %]</td>
@@ -185,16 +206,17 @@ function submitForm()
         <td align="center">NOTE: NO P.O. BOXES PLEASE</td>
       </tr>
       <tr>
-        <td>[% form.render_field('ship_address1') %]</td>
+        <td><strong>[% form.render_field('ship_address1') %]</strong></td>
       </tr>
       <tr>
         <td>[% form.render_field('ship_address2') %]</td>
       </tr>
       <tr>
-        <td>[% form.render_field('ship_city') %]</td>
+        <td><strong>[% form.render_field('ship_city') %]</strong></td>
       </tr>
       <tr>
         <td>
+        <strong>
         [% f = form.field('ship_state') %]
         <div class="form_col_a">
         <label class="label" for="[% f.name %]">[% f.label %]: </label>
@@ -208,10 +230,12 @@ function submitForm()
           [% END %]
         </select>
         </div>
+        </strong>
         </td>
       </tr>
       <tr>
         <td>
+        <strong>
         [% f = form.field('ship_country') %]
         <div class="form_col_a">
         <label class="label" for="[% f.name %]">[% f.label %]: </label>
@@ -225,19 +249,29 @@ function submitForm()
           [% END %]
         </select>
         </div>
+        </strong>
         </td>
       </tr>
       <tr>
-        <td>[% form.render_field('ship_zip_code') %]</td>
+        <td><strong>[% form.render_field('ship_zip_code') %]</strong></td>
       </tr>
       <tr>
-        <td>[% form.render_field('ship_phone') %]</td>
+        <td><strong>[% form.render_field('ship_phone') %]</strong></td>
       </tr>
     </table>
     
   <tr>
-     <td align='right'>&nbsp;</td>
-     <td>
+     <td align='right'>
+     <div class="form_col_a">
+        <label class="label" for="promo_code">Promo Code: </label>
+        <input type="text" name="promo_code" id="promo_code" 
+            value="" />
+     </div>
+</td>
+     <td>&nbsp;</td>
+  </tr>
+  <tr>
+     <td colspan="2">
        <div align='right'>
          <input type='submit' name='submit' value='Continue '
            onclick="submitForm()"  />

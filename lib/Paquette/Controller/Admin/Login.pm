@@ -21,7 +21,7 @@ Catalyst Controller.
 
 =cut
 
-sub index : Local {
+sub index :Path('') :Args(0) {
     my ($self, $c) = @_;
 
     # Get the username and password from form

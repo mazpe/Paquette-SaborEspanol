@@ -6,20 +6,20 @@ use Data::Dumper;
 
 with 'HTML::FormHandler::Render::Simple'; # if you want to render the form
 
-after 'setup_form' => sub {
+before 'setup_form' => sub {
     my $self = shift;
 
-    if ( !$self->params->{password} ) {
-        $self->field('password')->inactive(1);
-        $self->field('password_conf')->inactive(1);
-    } else {
+    unless ($self->item_id) {
         $self->field('password')->inactive(0);
         $self->field('password_conf')->inactive(0);
+    } else {
+        $self->field('password')->inactive(1);
+        $self->field('password_conf')->inactive(1);
     }
 
 };
 
-has '+item_class' => ( default => 'Customert' );
+has '+item_class' => ( default => 'Customer' );
 
 has_field 'bill_first_name'        => ( 
     type                => 'Text', 
@@ -69,6 +69,7 @@ has_field 'bill_state'        => (
 has_field 'bill_zip_code'        => (
     type                => 'Text',
     label               => 'Zip Code',
+    minlength           => 5,
     required            => 1,
     required_message    => 'You must enter your Zip Code',
     css_class           => 'form_col_a',
@@ -135,6 +136,7 @@ has_field 'ship_state'        => (
 has_field 'ship_zip_code'        => (
     type                => 'Text',
     label               => 'Zip Code',
+    minlength           => 5,
     required            => 1,
     required_message    => 'You must enter your Zip Code',
     css_class           => 'form_col_a',
@@ -177,6 +179,12 @@ has_field 'password_conf'   => (
     password_field      => 'password',
     css_class           => 'form_col_a',
 );
+has_field 'promo_code'  => (
+    type                => 'Text',
+    label               => 'Promo Code',
+    css_class           => 'form_col_a',
+);
+
 
 has_field 'submit'       => ( type => 'Submit', value => 'Save' );
 

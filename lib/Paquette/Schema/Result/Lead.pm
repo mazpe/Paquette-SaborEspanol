@@ -90,8 +90,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("lead_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04005 @ 2009-09-10 08:14:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ytbBPcO00NlNNdiHR7Hdvw
+# Created by DBIx::Class::Schema::Loader v0.04005 @ 2010-04-12 12:18:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Fv60Ht1wom9CbAoRqxmmpA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

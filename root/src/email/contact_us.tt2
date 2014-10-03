@@ -1,11 +1,12 @@
-First Name: [% c.req.params.first_name %]<br />
-Last Name: [% c.req.params.last_name %]<br />
-Email: [% c.req.params.email %]<br />
-Address 1: [% c.req.params.address_1 %]<br />
-Address 2: [% c.req.params.address_2 %]<br />
-City: [% c.req.params.city %]<br />
-State: [% c.req.params.state %]<br />
-Country: [% c.req.params.country %]<br />
-Zip Code: [% c.req.params.zip_code %]<br />
-Message: <br />
-[% c.req.params.message %]<br />
+First Name: [% c.req.params.first_name %]
+Last Name: [% c.req.params.last_name %]
+Email: [% c.req.params.email %]
+Address 1: [% c.req.params.address1 %]
+Address 2: [% c.req.params.address2 %]
+City: [% c.req.params.city %]
+State: [% c.req.params.state %]
+Country: [% c.req.params.country %]
+Zip Code: [% c.req.params.zip_code %]
+Phone: [% c.req.params.phone %]
+Message: 
+[% c.req.params.message %]

@@ -34,6 +34,17 @@ Catalyst Controller.
 
 sub auto : Local {
     my ( $self, $c ) = @_;
+    my $cart_size;
+    my $categories;
+
+    $cart_size = $c->model('Cart')->count_items_in_cart;
+    # Get all my parent categories
+    $categories = [$c->model('PaquetteDB::Categories')->search(
+        { parent_id => 0, active => 1 }
+    )];
+
+    $c->stash->{cart_size}      = $cart_size;
+    $c->stash->{categories}     = $categories;
 
     $c->stash->{random_image} = $c->subreq(
         '/webtools/random_images', { template => 'webtools/random_image.tt2' }
@@ -62,6 +73,8 @@ sub contact_us : Path('/contact_us') {
     my ( $self, $c ) = @_;
     my $row;
     my $form;
+    my $template;
+    my $subject;
 
     # Get a new empty row
     $row = $c->model('PaquetteDB::Lead')->new_result({});
@@ -80,7 +93,23 @@ sub contact_us : Path('/contact_us') {
     
     # If the form has been submited sucessfully, then redirect to confirm page
     if ($form) {
-        $c->res->redirect( $c->uri_for($self->action_for('contact_confirm')) );
+
+        $subject    = 'Contact Us - '. $c->req->params->{email};
+
+        # Send email
+        $c->stash->{email} = {
+            to          => 'info@saborespanol.com',
+            from        => $c->req->params->{email},
+            subject     => $subject,
+            template    => 'contact_us.tt2',
+            content_type => 'text/plain',
+        };
+
+        $c->forward( $c->view('Email::Template') );
+
+        $c->res->redirect( 
+            $c->uri_for($self->action_for('contact_confirm'),
+        ) );
     }
 }
 
@@ -110,6 +139,7 @@ sub mailing_list : Path('/mailing_list') {
     my ( $self, $c ) = @_;
     my $row;
     my $form;
+    my $subject;
 
     # Get a new row 
     $row = $c->model('PaquetteDB::Lead')->new_result({});
@@ -128,6 +158,20 @@ sub mailing_list : Path('/mailing_list') {
 
     # if the form has been submited succesfully, the redirect to confirm page
     if ($form) {
+
+        $subject    = 'Mailing List - '. $c->req->params->{email};
+
+        # Send email
+        $c->stash->{email} = {
+            to          => 'info@saborespanol.com',
+            from        => $c->req->params->{email},
+            subject     => $subject,
+            template    => 'mailing_list.tt2',
+            content_type => 'text/plain',
+        };
+
+        $c->forward( $c->view('Email::Template') );
+
         $c->res->redirect( 
             $c->uri_for($self->action_for('mailing_list_confirm')) 
         );

@@ -1,0 +1,9 @@
+<h2>ERROR</h2>
+
+<div id="content_block">
+
+You cannot submit an order as Administrator. Please logout as Administrator or Super User and login as a regular customer.
+
+</div> <!-- end of content_block -->
+
+<br>

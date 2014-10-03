@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Sabor Espanol - Authentic Spanish Food from Spain</title>
+    <meta name="google-site-verification" content="mIfhml8f6eRP3NZwx6SeOhtcQXe6PeQUM_t-iT60Ci0" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="robots" content="noindex" />
+    <meta name="robots" content="index" />
     <meta name="keywords" content="alimentos espaanoles, alimentos tipicos espanoles, comprar alimentos espanoles, tienda de productos espanoles, alimentos, espanoles, alimentos tipicos, tipicos espanoles, comprar alimentos, comprar, tienda, tienda de productos, tienda alimentos, tienda comida espanola, gourmet, gastronomia, gastronomia espanola, productos tipicos, productos espanoles, delicatessen, exquisiteces, productos delicatessen, conservas, quesos, jamones, original spain, spain, vinos, venta de vinos de calidad, venta de productos delicatessen, venta de embutidos ibericos, tiendas gourmet, jamon Serrano, serrano, jamon iberico" />
     <meta name="description" content="We bring you one step closer to Spain by delivering the best variety of the Spanish food and products to your home including the exquisite Black Hoof (pata negra) Ham. Una gran variedad de los mejores productos espanoles de maxima calidad llevados a tu hogar a los majores precios del Mercado." />
-    <link href="[% c.uri_for('/static/css/style.css') %]" rel="stylesheet"
-        type="text/css" />
+    <link href="[% c.uri_for('/static/css/style.css') %]" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -16,17 +16,60 @@
 <div id="wrapper">
 
   <div id="main">
+        <div id="user_menu">
+            <a href="[% c.uri_for(
+                c.controller('pages').action_for('about_us')) %]">
+            About Us
+            </a>
+            -
+            <a href="[% c.uri_for(
+                c.controller('pages').action_for('contact_us')) %]">
+            Contact Us
+            </a>
+            -
+            <a href="[% c.uri_for(
+                c.controller('cart').action_for('view')) %]">
+            View Cart
+            </a>
+            ( <span id="user_menu_aux">[% cart_size %] items </span>)
+            -
+          [% IF c.user_exists %]
+            <a href="[% c.uri_for(
+                c.controller('customers').action_for('index')) %]">
+            My Account
+            </a>
+             ( <span id="user_menu_aux">[% c.user.email %]</span> )
+            <a href="[% c.uri_for(
+                c.controller('customers').action_for('logout')) %]">
+            Logout
+            </a>
+          [% ELSE %]
+            <a href="[% c.uri_for(
+                c.controller('customers').action_for('login')) %]">
+            Login
+            </a>
+          [% END %]
+        </div><!-- end of user_menu -->
 
     <div id="left_menu">
       <a href="[% c.uri_for('/') %]">
       <img src="[% c.uri_for('/static/images/sabor-espanol-logo.gif') %]" 
-        width="133" height="122" border="0" alt="" />
+        width="133" height="125" border="0" alt="Gourmet spanish - Spanish hams, cheese and more." />
       </a>
-      <div id="left_menu_search">
-        <span id="search">SEARCH FOR PRODUCTS</span>
-        <input name="search_box" type="text" id="search_box" size="15" alt="" />
-      </div><!-- end of left_menu_search -->
       <br />
+
+      <div id="search">
+        Search
+<form name="search_form" method="post" action="[% c.uri_for(
+    c.controller('Store').action_for('search_results')
+    ) %]">
+        <input type="text" name="search" id="search.input">
+</form>
+      </div>
+        <div id="search_submit">
+        <input type="submit" name="Submit" value="Search">
+        </div>
+<br>
       <div id="left_menu_categories">
         Full Category Lists
 <dl>
@@ -49,6 +92,7 @@
     </dd>
   [% IF category_id == category.id %]
     [% FOREACH subcategory IN subcategories %]
+    [% NEXT IF category.id == 0 %]
       [% i = i + 1 %]
         <dd [% IF (i == 1) %] class="first" [% END %] >                                   <a href="[% c.uri_for(
               c.controller('Store').action_for('products'),
@@ -83,31 +127,7 @@
     
     <div id="center">
       <div id="top_menu">
-        <div id="user_menu">
-            <a href="[% c.uri_for(
-                c.controller('cart').action_for('view')) %]">
-            view cart 
-            </a> 
-            ( <span id="user_menu_aux">[% cart_size %] items </span>)
-            - 
-          [% IF c.user_exists %]
-            <a href="[% c.uri_for(
-                c.controller('customers').action_for('index')) %]">
-            my account
-            </a>
-             ( <span id="user_menu_aux">[% c.user.email %]</span> ) 
-            <a href="[% c.uri_for(
-                c.controller('customers').action_for('logout')) %]">
-              logout 
-            </a> 
-          [% ELSE %]
-            <a href="[% c.uri_for(
-                c.controller('customers').action_for('login')) %]">
-            login
-            </a>
-          [% END %]
-        </div><!-- end of user_menu -->
-        <img src="[% c.uri_for('/static/images/top_menu.gif') %]" width="547" height="96" hspace="0" vspace="0" border="0" usemap="#Map" alt="" />
+        <img src="[% c.uri_for('/static/images/top_menu.gif') %]" width="548" height="96" hspace="0" vspace="0" border="0" usemap="#Map" alt="" />
       </div><!-- end of top_menu -->
 
 [% IF errror || status %]
@@ -138,7 +158,7 @@
     
     <div id="specials">
       <div id="shield">
-        <img src="[% c.uri_for('/static/images/escudo-espana.gif') %]" width="120" height="96" hspace="0" vspace="0" border="0" alt="" />
+        <img src="[% c.uri_for('/static/images/escudo-espana.gif') %]" width="119" height="96" hspace="0" vspace="0" border="0" alt="" />
       </div><!-- end of shield -->
       <div id="special_ads">
 
@@ -146,8 +166,8 @@
 
         <div class="special_ad_single">
           <a href="[% c.uri_for('/promotions/opening_special') %]" >
-            <img src="[% c.uri_for('/static/images/specials_celebrate.jpg') %]" 
-              width="104" height="223" border="0" alt="" />
+            <img src="[% c.uri_for('/static/images/specials_celebrate.gif') %]" 
+              width="105" height="226" border="0" alt="" />
           </a><br />
           <img src="[% c.uri_for('/static/images/spacer_line.png') %]" 
             width="100" height="5" alt="" />
@@ -155,7 +175,7 @@
         <div class="special_ad_single">
           <a href="[% c.uri_for('/promotions/wines') %]" >
             <img src="[% c.uri_for('/static/images/specials_wines.jpg') %]" 
-              width="104" height="115" border="0" alt="" />
+              width="104" height="117" border="0" alt="" />
           </a><br />
           <img src="[% c.uri_for('/static/images/spacer_line.png') %]" 
             width="100" height="5" alt="" />
@@ -183,33 +203,31 @@
     
   </div> <!-- end of main -->
 
-
 </div><!-- end of wrapper -->
-        <map name="Map" id="Map">
-          <area shape="rect" coords="2,70,116,93" 
-            href="[% c.uri_for('/store/jamon_ham') %]" 
-            alt="Spanish Jamon / Ham" />
-          <area shape="rect" coords="116,70,182,93" 
-            href="[% c.uri_for('/store/spanish_food/iberico_sausages') %]" 
-            alt="Chorizo" />
-          <area shape="rect" coords="182,70,239,93" 
-            href="[% c.uri_for('/store/paella') %]" 
-            alt="Paella" />
-          <area shape="rect" coords="239,70,303,93" 
-            href="[% c.uri_for('/store/cheese') %]" 
-            alt="Cheese" />
-          <area shape="rect" coords="303,70,360,93" 
-            href="[% c.uri_for('/store/wine') %]" 
-            alt="Wine" />
-          <area shape="rect" coords="360,70,438,93" 
-            href="[% c.uri_for('/store/preserves') %]" 
-            alt="Preserves" />
-          <area shape="rect" coords="438,70,544,93" 
-            href="[% c.uri_for('/store/oils_and_vinegars') %]" 
-            alt="Oils and Vinegars" />
-        </map>
+
+<map name="Map" id="Map">
+    <area shape="rect" coords="18,67,100,90" 
+        href="[% c.uri_for('/store/hams') %]" />
+    <area shape="rect" coords="100,67,210,90" 
+        href="[% c.uri_for('/store/sausages_cheese') %]" />
+    <area shape="rect" coords="210,67,334,90"
+        href="[% c.uri_for('/store/canned_foods/canned_seafood') %]" />
+    <area shape="rect" coords="335,67,416,90"
+        href="[% c.uri_for('/store/oil_vinegar') %]" />
+    <area shape="rect" coords="416,67,520,90"
+        href="[% c.uri_for('/store/olives_pickles') %]" />
+</map>
 
 <div align="center" id="power_by">Powered by gbRND</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-11777486-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
 </body>
 </html>
 

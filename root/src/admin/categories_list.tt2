@@ -4,32 +4,28 @@
 <a href="[% c.uri_for(c.controller.action_for('create')) %]">
 <h3>Create a category</h3>
 </a>
-  <table border="1" cellspacing="1" cellpadding="1">
+  <table border="0" cellspacing="0" cellpadding="0"  id="hor-minimalist-a">
     <tr>
+      <th>ID</th>
       <th>Parent</th>
       <th>Name</th>
-      <th>Description</th>
       <th>Photo</th>
+      <th>Active</th>
       <th>Edit / Delete</th>
     </tr>
 
 [% FOREACH category IN categories %]
     <tr>
+      <td>[% category.parent_id %] &nbsp;</td>
       <td>[% category.parent.name %] &nbsp;</td>
       <td>[% category.name %] &nbsp;</td>
-      <td>[% category.brief_description FILTER truncate(64) %] &nbsp;</td>
       <td>[% category.photo %] &nbsp;</td>
+      <td>[% category.active %] &nbsp;</td>
       <td>
         <a href="[% c.uri_for(
           c.controller.action_for('edit'), [category.id]
         ) %]">
           edit
-        </a>
-        -
-        <a href="[% c.uri_for(
-          c.controller.action_for('delete'), [category.id]
-        ) %]">
-          delete 
         </a>
       </td>
     </tr>

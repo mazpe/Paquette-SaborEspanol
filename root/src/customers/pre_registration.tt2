@@ -83,6 +83,11 @@ return false;
 <table width="400" border="0" align="center" cellpadding="2" cellspacing="2">
       <tr>
         <td colspan="2" align="center">
+<div class="grand_opening">
+OPENING DATE:<br />
+Wednesday, October 14, 2009
+</div>
+
           <span class="content">Stick around to enjoy the best taste of Spain! </span><br />          <br />
 
     <span class="status">[% status_msg %]</span>
@@ -91,7 +96,10 @@ return false;
 </td>
       </tr>
       <tr>
-        <td colspan="2" align="left" class="content">Register today and receive a 15% discount coupon... on your first purchase!</td>
+        <td colspan="2" align="left" class="content">
+Register today and receive a 15% discount coupon... on your first purchase!
+
+</td>
       </tr>
       <tr>
         <td width="143" class="content"><strong>First Name:</strong></td>

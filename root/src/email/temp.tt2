@@ -1,0 +1,126 @@
+<table width='540' cellpadding='0' cellspacing='0' valign='top' border='0' 
+    id="customer_info">
+  <tr>
+    <td valign="top">
+                  <table border=0 width='100%'>
+                    <tr>
+                      <th>BILL TO:</td>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td colspan=2>
+                      [% customer.bill_first_name %],
+                      [% customer.bill_last_name %]<br />
+                      [% customer.bill_address1 %]<br />
+                      [% customer.bill_address2 %]<br />
+                      [% customer.bill_city %], [% customer.bill_state %]
+                      [% customer.bill_zip %]<br />
+                      [% customer.bill_country %]<br />
+                      [% customer.bill_phone %]<br />
+                      [% customer.bill_email %]<br />
+                      </td>
+                    </tr>
+                  </table>
+<br>
+                  <table border=0 width='100%'>
+                    <tr>
+                      <th>SHIP TO:</td>
+                      <td align='right' valign='top'>&nbsp; </td>
+                  </tr>
+                    <td colspan=2>
+                    [% customer.ship_first_name %],
+                    [% customer.ship_last_name %]<br />
+                    [% customer.ship_address1 %]<br />
+                    [% customer.ship_address2 %]<br />
+                    [% customer.ship_city %], [% customer.bill_state %]
+                    [% customer.ship_zip %]<br />
+                    [% customer.ship_country %]<br />
+                    [% customer.ship_phone %]<br />
+                    [% customer.ship_email %]<br />
+                    </td>
+              </tr>
+          </table>
+
+    </td>
+<!-- RIGHT COLUMN -->
+    <td valign="top">
+
+
+  <table cellpadding='0' cellspacing='5' valign='top' align='left' border='0' width='100%'>
+      <tr>
+      <th class='summarycell'>
+        SHIPPING 
+      </th>
+      </tr>
+      <tr><td><strong>Shipping Type:</strong></td></tr>
+      <tr>
+        <td>[% order.shipping_type %]</td>
+      </tr>
+      <tr><td><strong>Shipping Amount:</strong></td></tr>
+      <tr>
+        <td>$[% order.shipping_amount %]</td>
+      </tr>
+      <tr>
+      <th class='summarycell'>
+        PAYMENT
+      </th>
+      </tr>
+      <td>
+[% IF order.payment_type == 'CC' %]
+<strong> Credit Card </strong>
+<table border=0>
+<tr>
+    <th nowrap>Credit Card # </td>
+    <td valign=top>[% order.credit_card_number %]</td>
+</tr>
+<tr>
+    <th nowrap>Expiration Date (02/11)</td>
+    <td valign=top>[% order.credit_card_expiration %]</td>
+</tr>
+<tr>
+    <th nowrap>CVV Code</td>
+    <td valign=top>[% order.credit_card_cvv %] </td>
+</tr>
+</table>
+
+[% END %]
+
+[% IF order.payment_type == 'PayPal' %]
+
+<strong>Paypal</strong>
+<table border=0>
+<tr>
+    <th nowrap>Paypal Email </th>
+    <td valign=top>[% order.paypal_email %]</td>
+</tr>
+</table>
+
+[% END %]
+  </td>
+ </tr>
+
+      <tr>
+      <th class='summarycell'>
+        TOTAL AMOUNT
+      </th>
+      </tr>
+      <tr>
+        <td>$[% amount + order.shipping_amount %]</td>
+      </tr>
+
+</table>
+
+    </td>
+<!-- END OF RIGHT COLUMN -->
+  </tr>
+<tr>
+  <td  colspan="2" align="center">
+[% INCLUDE order/checkout_view.tt2 %]
+  </td>
+</tr>
+
+</table>
+
+</form>
+
+<br>

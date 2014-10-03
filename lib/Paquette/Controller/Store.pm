@@ -19,10 +19,21 @@ Catalyst Controller.
 
 sub auto : Local {
     my ( $self, $c ) = @_;
+    my $cart_size;
 
     $c->stash->{random_image} = $c->subreq(
         '/webtools/random_images', { template => 'webtools/random_image.tt2' }
     );
+
+    # Get all my parent categories
+    my $categories = [$c->model('PaquetteDB::Categories')->search(
+        { parent_id => 0, active => 1 }
+    )];
+
+    $cart_size = $c->model('Cart')->count_items_in_cart;
+
+    $c->stash->{cart_size}  = $cart_size;
+    $c->stash->{categories} = $categories;
 
 }
 
@@ -101,7 +112,8 @@ sub subcategories_base : Chained('base') :PathPart('') : CaptureArgs(1) {
 
     # Get all subcategories under this category
     $c->stash->{subcategories} = [$c->model('PaquetteDB::Categories')->search({
-        parent_id => $c->stash->{category_id}
+        parent_id   => $c->stash->{category_id},
+        active      => 1,
     })];
 
 }
@@ -150,7 +162,8 @@ sub products_base : Chained('subcategories_base') :PathPart('') : CaptureArgs(1)
 
     # query database to create array of subcats
     $c->stash->{products} = [$c->model('PaquetteDB::Product')->search({
-        category_id => $c->stash->{subcategory_id}
+        category_id => $c->stash->{subcategory_id},
+        active      => 1,
     })];
 
 
@@ -202,6 +215,30 @@ sub item : Chained('items_base') : PathPart('') : Args(0) {
     return;
 }
 
+sub search : Local {
+    my ( $self, $c ) = @_;
+
+    $c->stash->{template} = 'store/search.tt2';
+
+}
+
+sub search_results : Local {
+    my ( $self, $c ) = @_;
+    my $search_results;
+
+    my $search = $c->req->params->{search};
+
+    $search_results = [$c->model('PaquetteDB::Product')->search({ 
+        description => { -like => "%$search%" } 
+    })];
+
+#print $search_results;
+
+    $c->stash(
+        results     => $search_results,
+        template    => 'store/search_results.tt2',
+    );
+}
 
 =head1 AUTHOR
 

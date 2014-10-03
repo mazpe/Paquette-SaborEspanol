@@ -1,0 +1,180 @@
+<script language="JavaScript">
+<!--
+function submitForm()
+{
+    document.payment.submit();
+}
+
+//-->
+</script>
+<h3>Order# [% order.id %]</h3>
+<table width='540' cellpadding='0' cellspacing='0' valign='top' border='0' id="order_info">
+  <tr>
+    <td>
+    <form method="post" action="[% c.uri_for(
+        c.controller('Admin::Orders').action_for('change_status'), [order.id]
+    ) %]" name='payment'>
+    <select name="status">
+      <option value="PENDING" 
+        [% IF order.status == 'PENDING' %] selected [% END %]>PENDING
+      <option value="SHIPPED" 
+        [% IF order.status == 'SHIPPED' %] selected [% END %]>SHIPPED
+      <option value="VOID"
+        [% IF order.status == 'VOID' %] selected [% END %]>VOID
+      <option value="PACKED"
+        [% IF order.status == 'PACKED' %] selected [% END %]>PACKED
+      <option value="PAID"
+        [% IF order.status == 'PAID' %] selected [% END %]>PAID
+    </select>
+    <input type="submit" name="submit" value="Change Status">
+    </form>
+    </td>
+    <td  align="right">
+    <form method="post" action="[% c.uri_for(
+        c.controller('Admin::Orders').action_for('delete'), [order.id]
+    ) %]" name='payment'>
+      <input type='submit' name='submit' value='Delete' >
+    </form>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+                  <table border=0 width='100%'>
+                    <tr>
+                      <th>BILL TO:</td>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td colspan=2>
+                      [% order.bill_first_name %],
+                      [% order.bill_last_name %]<br />
+                      [% order.bill_address1 %]<br />
+                      [% order.bill_address2 %]<br />
+                      [% order.bill_city %], [% order.bill_state %]
+                      [% order.bill_zip_code %]<br />
+                      [% order.bill_country %]<br />
+                      [% order.bill_phone %]<br />
+                      [% order.email %]<br />
+                      </td>
+                    </tr>
+                  </table>
+<br>
+                  <table border=0 width='100%'>
+                    <tr>
+                      <th>SHIP TO:</td>
+                      <td align='right' valign='top'>&nbsp; </td>
+                  </tr>
+                    <td colspan=2>
+                    [% order.ship_first_name %],
+                    [% order.ship_last_name %]<br />
+                    [% order.ship_address1 %]<br />
+                    [% order.ship_address2 %]<br />
+                    [% order.ship_city %], [% order.bill_state %]
+                    [% order.ship_zip_code %]<br />
+                    [% order.ship_country %]<br />
+                    [% order.ship_phone %]<br />
+                    </td>
+              </tr>
+          </table>
+
+    </td>
+<!-- RIGHT COLUMN -->
+    <td valign="top">
+
+
+  <table cellpadding='0' cellspacing='5' valign='top' align='left' border='0' width='100%'>
+      <tr>
+      <th class='summarycell'>
+        SHIPPING 
+      </th>
+      </tr>
+      <tr><td><strong>Shipping Type:</strong></td></tr>
+      <tr>
+        <td>[% order.shipping_type %]</td>
+      </tr>
+      <tr><td><strong>Shipping Amount:</strong></td></tr>
+      <tr>
+        <td>$[% order.shipping_amount %]</td>
+      </tr>
+      <tr><td><strong>Shipping weight:</strong></td></tr>
+      <tr>
+        <td>[% sum_weight %] lbs</td>
+      </tr>
+
+      <tr>
+      <th class='summarycell'>
+        PAYMENT
+      </th>
+      </tr>
+      <td>
+[% IF order.payment_type == 'CC' %]
+<strong> Credit Card </strong>
+<table border=0>
+<tr>
+    <th align="right">Credit Card # </td>
+    <td valign=top>[% cc_last4 %]</td>
+</tr>
+<tr>
+    <th align="right">Auth Code: </td>
+    <td valign=top>[% order.txn_auth_code %]</td>
+</tr>
+
+<tr>
+    <th align="right">Trans ID: </td>
+    <td valign=top>[% order.txn_id %]</td>
+</tr>
+</table>
+
+[% END %]
+
+[% IF order.payment_type == 'PayPal' %]
+
+<strong>Paypal</strong>
+<table border=0>
+<tr>
+    <th nowrap>Paypal Email </th>
+    <td valign=top>[% order.paypal_email %]</td>
+</tr>
+</table>
+
+[% END %]
+  </td>
+ </tr>
+
+      <tr>
+      <th class='summarycell'>
+        <br>
+        PROMOTION CODE
+      </th>
+      </tr>
+      <tr>
+        <td align="center">[% order.promo_code %]</td>
+      </tr>
+
+      <tr>
+      <th class='summarycell'>
+        TOTAL AMOUNT
+      </th>
+      </tr>
+      <tr>
+        <td align="center">$[% order.payment_amount %]</td>
+      </tr>
+
+</table>
+
+
+    </td>
+<!-- END OF RIGHT COLUMN -->
+  </tr>
+<tr>
+  <td  colspan="2" align="center">
+[% INCLUDE cart/admin_order_view.tt2 %]
+  </td>
+</tr>
+
+</table>
+
+
+</form>
+
+<br>

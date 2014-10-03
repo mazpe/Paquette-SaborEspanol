@@ -89,9 +89,8 @@ function submitForm()
     <td align="center">
     <br>
       <input type="button" name="clear" value="Checkout"
-        onClick="window.location='[%
-            c.uri_for(c.controller('Checkout').action_for('customer'))
-         %]'" >
+        onClick="window.location='https://www.saborespanol.com/checkout/customer'" >
+
     <br>
     <br>
     </td>

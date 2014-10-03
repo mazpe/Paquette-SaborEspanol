@@ -8,8 +8,8 @@ Sabor Espanol
 
 [% i = 0 %]
 [% FOREACH category IN categories %]
+[% NEXT IF category.id == 0 %]
 [% i = i + 1 %]
-
 <div class="content_category">
   <div class="content_category_header">
     <a href="[% c.uri_for(

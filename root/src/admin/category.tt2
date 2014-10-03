@@ -45,6 +45,7 @@
       action="[% c.uri_for(c.controller.action_for('delete'),[category.id]) %]"
 >
 <br />
+[% IF category.id > 0 %]
 <table>
   <tr>
     <td> Delete the category </td>
@@ -58,6 +59,7 @@
     </td>
   </tr>
 </table>
+[% END %]
 
 </form>
 [% END %]

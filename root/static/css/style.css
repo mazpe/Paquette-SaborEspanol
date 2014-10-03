@@ -9,6 +9,7 @@ body {
     
 }
 #main {
+    position: relative;
     width:800px;
     background-color: #F00;
     margin-top: 0;
@@ -71,7 +72,7 @@ body {
 #center {
     position:relative;
     float: left;
-    width: 547px;
+    width: 548px;
 }
 #center_specials {
     text-align: center; 
@@ -81,12 +82,15 @@ body {
 }
 #user_menu {
     position:absolute;
+    width:650px;
     top: 2px;
     right: 10px;
+    z-index:100;
     font-family: Arial, Gadget, sans-serif;
     font-weight: bold;
     font-size: 9pt;
     color: #FF0;        
+    text-align: right;
 }
 #user_menu a{
     font-family: Arial, Gadget, sans-serif;
@@ -174,7 +178,7 @@ body {
     background-color:#FF0;
     font-family: Arial, Gadget, sans-serif;
     color: #F00;
-    font-size: 9pt;
+    font-size: 8pt;
     font-weight: bold;
     text-align:center;
 }
@@ -475,6 +479,38 @@ body {
     border: 1px solid #781351
 }
 
+.form_col_b {
+    float: left;
+    width: 250px;
+    font-family: Arial, Gadget, sans-serif;
+    font-size: 12px;
+}
+.form_col_b label {
+    width: 80px;
+    float: left;
+    text-align: right;
+    margin-right: 0.5em;
+    display: block
+}
+.form_col_b input {
+    color: #781351;
+    background: #fee3ad;
+    border: 1px solid #781351
+}
+.form_col_b textarea {
+    color: #781351;
+    background: #fee3ad;
+    border: 1px solid #781351
+}
+
+.form_col_b select {
+    width: 55px;
+    color: #781351;
+    background: #fee3ad;
+    border: 1px solid #781351
+}
+
+
 .error label {
     width: 80px;
     float: left;
@@ -498,6 +534,53 @@ body {
     font-family: Arial, Gadget, sans-serif;
     color: #fff;
     font-size: 12px;
+
+}
+
+
+#payment_failed {
+    color: #f00;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#checkout_header {
+    font-size: 12px;
+    font-weight: bold;
+}
+#checkout_header a:visited {
+    color: #990000;
+}
+
+#search {
+
+    text-align: left;
+    font-family: Arial, Gadget, sans-serif;
+    color: #FFF;
+    font-size: 10pt;
+    font-weight: bold;
+    padding-left: 5px;
+
+}
+
+#search input {
+    background-color: #ececec;
+    font-family: arial;
+    font-size: 10pt;
+    color: #ff0000;
+    width: 115px;
+    border-style:groove; 
+}
+
+#search_submit {
+
+    text-align: right;
+    font-family: Arial, Gadget, sans-serif;
+    color: #FFF;
+    font-size: 10pt;
+    font-weight: bold;
+    padding-right: 10px;
 
 }
 

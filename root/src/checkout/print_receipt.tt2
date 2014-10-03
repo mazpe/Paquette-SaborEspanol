@@ -1,0 +1,87 @@
+<html>
+<head>
+</head>
+<body onLoad="window.print()">
+<h2>Receipt</h2>
+
+<div id="content_block">
+
+Thank you for your order with SaborEspanol.com
+<br />
+<br />
+We are pleased to bring you a step closer to Spain.  We have received your order and it will be processed within one business day.
+<br />
+<br />
+See the bottom of this email for detailed information about shipping and delivery schedules.  Please contact us directly for special handling or very urgent orders.
+<br />
+<br />
+Email: contact@saborespanol.com
+<br />
+<br />
+-------------------------------------------------------------------------------
+<br />
+ORDER # [% order.id %]<br />
+PAYMENT TYPE: [% order.payment_type %]<br />
+PAYMENT STATUS: [% order.txn_status %]<br />
+TRANSACTION ID: [% order.txn_id %]<br />
+AUTHORIZATION CODE: [% order.txn_auth_code %]<br />
+
+<br /><br />
+BILL TO:<br />
+[% order.bill_first_name %], [% order.bill_last_name %]<br />
+[% order.bill_address1 %]<br />
+[% order.bill_address2 %]<br />
+[% order.bill_city %], [% order.bill_state %] - [% order.bill_zip_code %]<br />
+[% order.bill_country %]<br />
+[% order.bill_phone %]<br />
+[% order.email %]<br />
+<br /><br />
+SHIP TO:<br />
+[% order.ship_first_name %], [% order.ship_last_name %]<br />
+[% order.ship_address1 %]<br />
+[% order.ship_address2 %]<br />
+[% order.ship_city %], [% order.bill_state %] - [% order.ship_zip_code %]<br />
+[% order.ship_country %]<br />
+[% order.ship_phone %]<br />
+<br />
+<br />
+SHIPPING METHOD: [% order.shipping_type %]<br />
+<br />
+PROMOTION CODE: [% order.promo_code %]<br />
+--------------------------------------------------------------------------------
+<br />
+[% INCLUDE cart/checkout_order_view.tt2 %]
+SUB TOTAL: $[% items_amount | format('%0.2f') %]<br />
+DISCOUNT: $[% order.discount_amount | format('%0.2f') %]<br />
+SHIPPING: $[% order.shipping_amount | format('%0.2f') %]<br />
+TOTAL: $[% order.payment_amount | format('%0.2f') %]<br />
+ ------------------------------------------------------------------------------
+<br />
+IMPORTANT INFORMATION<br />
+ <br />
+Shipping Time: <br />
+Orders placed by noon EST, Mon-Fri, will be processed and shipped that business day. The only exception would be during extreme weather conditions, or during exceptionally busy times. Please allow 1-2 additional business days for processing during the last three weeks of December, our busiest time of the year. Please Note: Perishable orders placed after noon EST on Wednesday may need to be held to ship the following Monday. If your perishable order cannot be guaranteed to arrive by Saturday with your chosen delivery method, we will hold your order to ship the following Monday to protect the quality of your products. Please contact our Customer Service Office at support@saborespanol.com if you would like to expedite your perishable order.
+<br />
+<br />
+Wine Orders:<br />
+The law requires an adult signature at the time of delivery for orders containing alcohol. Please make sure the delivery address you provide is a location where an adult can receive the order in person. For convenience, we recommend sending such orders to a place of business. We also urge you to treat a fine wine as a perishable product, and not to economize on shipping. In particular, extreme weather is bad for wine. We ship all of our wines in a thick Styrofoam box designed to transport wine. It will protect the bottle from extreme temperatures -- but only for a day or so. 
+<br />
+<br />
+Tracking: <br />
+After we ship your package you can track it on UPS website.<br />
+ <br />
+Urgent Orders:<br />
+For extremely urgent orders, or for special shipping arrangements, please contact us by email at contact@saborespanol.com.
+<br /><br />
+ Thank you for your support. Be sure to visit us again at SaborEspanol.com to see our new products!
+<br /><br />
+SaborEspanol.com<br />
+A step closer to Spain<br />
+http://www.saborespanol.com<br />
+contact@saborespanol.com<br />
+
+</div>
+
+<br />
+</body>
+</html>

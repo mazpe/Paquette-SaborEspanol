@@ -4,13 +4,12 @@ use Moose;
 use MooseX::Types::Moose qw(Str Int ArrayRef);
 use namespace::autoclean;
 use Data::Dumper;
+use WWW::Curl::Easy;
+use LWP::UserAgent;
 
-has 'user'          => ( is => 'ro', required => 1, weak_ref => 1 );
-has 'schema'    => ( is => 'rw', required => 1, handles => [qw / resultset /] );
-has 'sku'       => ( is => 'ro', isa => Str );
-has 'qty'       => ( is => 'ro', isa => Int, default => 0 );
-
-has '_items'    => ( is => 'ro', isa => ArrayRef, lazy_build => 1 );
+has 'user'          	=> ( is => 'ro', required => 1, weak_ref => 1 );
+has 'schema'    	=> ( is => 'rw', required => 1, handles => [qw / resultset /] );
+#has 'order_id'       	=> ( is => 'ro', isa => Int, default => 0 );
 
 sub create_order {
     my ( $self, $customer_id ) = @_;
@@ -222,16 +221,100 @@ sub total_items_in_order {
 }
 
 sub destroy_order {
-    my $self            = shift;
-    my $order_id         = get_order_id($self);
+    my ( $self, $args ) = @_;
 
     # Destroy the order items
-    $self->resultset('OrdersItem')->clear_items($order_id);
+    $self->resultset('OrdersItem')->clear_items($args);
     
     # Destroy the order;
-    $self->resultset('Orders')->delete($order_id);
+    $self->resultset('Orders')->delete($args);
 
 
+}
+
+sub process_cc {
+    my ( $self, $args ) = @_;
+    my $order;
+    my $merchant_url;
+    my $response_body;
+    my %resp;
+    my %form;
+    my @test;
+    my $ua;
+    my $cc_exp;
+
+    $order = $self->resultset('Orders')->get_order_by_id( $args->{order_id} );
+    $cc_exp = sprintf("%02d", $order->credit_card_exp_month) . sprintf("%02d", $order->credit_card_exp_year);
+
+    $merchant_url
+        = 'https://secure.merchantonegateway.com/api/transact.php';
+
+    %form = (
+        type        => 'sale',
+        username    => 'username',
+        password    => 'password',
+        ipaddress   => $ENV{'REMOTE_ADDR'},
+        orderid     => $order->id,
+        firstname   => $order->bill_first_name,
+        lastname    => $order->bill_last_name,
+        address1    => $order->bill_address1,
+        city        => $order->bill_city,
+        state       => $order->bill_state,
+        zip         => $order->bill_zip_code,
+        ccnumber    => $order->credit_card_number,
+        ccexp       => $cc_exp,
+        cvv         => $order->credit_card_cvv,
+        amount      => $order->payment_amount,
+    );
+
+    $ua = LWP::UserAgent->new;
+    $ua->timeout(10);
+    $ua->env_proxy;
+
+    $response_body = $ua->post($merchant_url, \%form );
+
+    if ($response_body->is_success) {
+
+        # $response_body: response=1&authcode=1234
+        my @responses = split(/&/, $response_body->decoded_content);
+
+        # $response: response=1
+        foreach my $response (@responses) {
+            my ( $key, $value ) = split(/=/, $response);
+            $resp{$key} = $value;
+        }
+
+        if ( $resp{response} eq 1 ) {
+            
+            $self->resultset('Orders')->update_order( {
+                order_id        => $resp{orderid},
+                txn_id          => $resp{transactionid},
+                txn_status      => $resp{response},
+                txn_auth_code   => $resp{authcode},
+                txn_avs         => $resp{avsresponse},
+                txn_cvv         => $resp{cvvresponse},
+                txn_code        => $resp{response_code},
+                status          => 'PAID',
+            } ); 
+
+        } else {
+            $self->resultset('Orders')->update_order( {
+                order_id        => $resp{orderid},
+                txn_id          => $resp{transactionid},
+                txn_status      => $resp{response},
+                txn_auth_code   => $resp{authcode},
+                txn_avs         => $resp{avsresponse},
+                txn_cvv         => $resp{cvvresponse},
+                txn_code        => $resp{response_code},
+                status          => 'PENDING PAYMENT',
+            } );
+
+        }
+
+    } else {
+        die $response_body->status_line;
+    }
+return \%resp;
 }
 
 1;

@@ -1,0 +1,15 @@
+*** ../src/test/32/program	2008-01-16 10:45:01.000000000 -0500
+--- gp.out	2009-10-27 09:50:46.000000000 -0400
+***************
+*** 118,122 ****
+  ? getheap
+  [24, 3023]
+  ? print("Total time spent: ",gettime);
+! Total time spent: 40
+  ? \q
+--- 118,122 ----
+  ? getheap
+  [24, 3023]
+  ? print("Total time spent: ",gettime);
+! Total time spent: 32
+  ? \q

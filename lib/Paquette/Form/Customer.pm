@@ -6,18 +6,18 @@ use Data::Dumper;
 
 with 'HTML::FormHandler::Render::Simple'; # if you want to render the form
 
-after 'setup_form' => sub {
-    my $self = shift;
-
-    if ( !$self->params->{password} ) {
-        $self->field('password')->inactive(1);
-        $self->field('password_conf')->inactive(1);
-    } else {
-        $self->field('password')->inactive(0);
-        $self->field('password_conf')->inactive(0);
-    }
-
-};
+#after 'setup_form' => sub {
+#    my $self = shift;
+#
+#    if ( !$self->params->{password} && $self->params->{active} ) {
+#        $self->field('password')->inactive(1);
+#        $self->field('password_conf')->inactive(1);
+#    } else {
+#        $self->field('password')->inactive(0);
+#        $self->field('password_conf')->inactive(0);
+#    }
+#
+#};
 
 has '+item_class' => ( default => 'Customer' );
 
@@ -69,6 +69,7 @@ has_field 'bill_state'        => (
 has_field 'bill_zip_code'        => (
     type                => 'Text',
     label               => 'Zip Code',
+    minlength           => 5,
     required            => 1,
     required_message    => 'You must enter your Zip Code',
     css_class           => 'form_col_a',
@@ -135,6 +136,7 @@ has_field 'ship_state'        => (
 has_field 'ship_zip_code'        => (
     type                => 'Text',
     label               => 'Zip Code',
+    minlength           => 5,
     required            => 1,
     required_message    => 'You must enter your Zip Code',
     css_class           => 'form_col_a',

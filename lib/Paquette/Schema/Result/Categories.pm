@@ -42,6 +42,8 @@ __PACKAGE__->add_columns(
   },
   "photo",
   { data_type => "INT", default_value => 0, is_nullable => 0, size => 1 },
+  "active",
+  { data_type => "INT", default_value => 1, is_nullable => 0, size => 1 },
   "created",
   {
     data_type => "DATETIME",
@@ -61,8 +63,8 @@ __PACKAGE__->set_primary_key("id");
 __PACKAGE__->add_unique_constraint("name", ["name"]);
 
 
-# Created by DBIx::Class::Schema::Loader v0.04005 @ 2009-09-10 08:14:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:icEOnEsI2vL7HuQo5wVRbw
+# Created by DBIx::Class::Schema::Loader v0.04005 @ 2010-04-12 12:18:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:LS4+C2uysBdYKcRgp8GSVg
 
 __PACKAGE__->has_one(parent => 'Paquette::Schema::Result::Categories', 
     { 'foreign.id' => 'self.parent_id' },

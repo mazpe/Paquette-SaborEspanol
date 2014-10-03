@@ -43,6 +43,20 @@ sub get_order_by_id {
     return $order;
 }
 
+sub update_order {
+    my ( $self, $args ) = @_;
+    # Find my order 
+    my $order = $self->find( $args->{order_id} );
+
+    # If we found my order, update it
+    if ($order) {
+        delete $args->{order_id};
+        $order->update( $args );
+    }
+
+}
+
+
 
 =head1 AUTHOR
 
@@ -56,4 +70,3 @@ it under the same terms as Perl itself.
 =cut
 
 1;
-

@@ -1,0 +1,8 @@
+[% META title = 'Create Promotions' -%]
+
+
+<div id="promotions_block">
+
+[% form.render %]
+
+</div>

@@ -38,6 +38,8 @@ sub index :Chained('based') :Path :Args(0) {
         { order_by => [qw/parent_id name/] }
     )];
 
+    #my $categories = [$c->model('PaquetteDB::Categories')->all];
+
     $c->stash->{categories} = $categories;
 
     $c->stash->{wrapper_admin}  = "1";
@@ -56,7 +58,8 @@ sub load : Chained('base') :PathPart('') :CaptureArgs(1) {
     my ( $self, $c, $id ) = @_;
     my $category;
 
-    if($id) {
+    # if $id is found or $id is equal to 0, the case for the parent category
+    if($id || $id == 0) {
 
         $c->stash->{category_id} = $id;
         $category    = $c->model('PaquetteDB::Categories')->find($id);

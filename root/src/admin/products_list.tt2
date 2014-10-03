@@ -5,13 +5,16 @@
 <a href="[% c.uri_for(c.controller.action_for('create')) %]">
 <h3>Create a Product</h3>
 </a>
-  <table border="1" cellspacing="1" cellpadding="1">
+  <table border="0" cellspacing="0" cellpadding="0" id="hor-minimalist-a">
     <tr>
       <th>SKU</th>
       <th>Category</th>
       <th>Name</th>
+      <th>Weight</th>
+      <th>&nbsp;</th>
       <th>Price</th>
       <th>Photo</th>
+      <th>Active</th>
       <th>Edit / Delete</th>
     </tr>
 
@@ -20,19 +23,16 @@
       <td>[% product.sku %] &nbsp;</td>
       <td>[% product.category.name %] &nbsp;</td>
       <td>[% product.name %] &nbsp;</td>
+      <td>[% product.weight %] &nbsp;</td>
+      <td>[% product.weight_type %] &nbsp;</td>
       <td>[% product.price %] &nbsp;</td>
       <td>[% product.photo %] &nbsp;</td>
+      <td>[% product.active %] &nbsp;</td>
       <td>
         <a href="[% c.uri_for(
           c.controller.action_for('edit'), [product.id]
         ) %]">
           edit
-        </a>
-        -
-        <a href="[% c.uri_for(
-          c.controller.action_for('delete'), [product.id]
-        ) %]">
-          delete
         </a>
       </td>
     </tr>

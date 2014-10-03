@@ -1,0 +1,3 @@
+First Name: [% c.req.params.first_name %]
+Last Name: [% c.req.params.last_name %]
+Email: [% c.req.params.email %]

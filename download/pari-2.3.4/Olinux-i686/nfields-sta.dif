@@ -1,0 +1,15 @@
+*** ../src/test/32/nfields	2008-01-16 10:44:57.000000000 -0500
+--- gp.out	2009-10-27 09:50:47.000000000 -0400
+***************
+*** 1185,1189 ****
+  ? getheap
+  [200, 121341]
+  ? print("Total time spent: ",gettime);
+! Total time spent: 288
+  ? \q
+--- 1185,1189 ----
+  ? getheap
+  [200, 121341]
+  ? print("Total time spent: ",gettime);
+! Total time spent: 136
+  ? \q

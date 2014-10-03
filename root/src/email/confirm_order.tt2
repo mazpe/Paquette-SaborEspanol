@@ -8,37 +8,46 @@ Email: contact@saborespanol.com
 
 -------------------------------------------------------------------------------
 ORDER # [% order.id %]
+PAYMENT TYPE: [% order.payment_type %]
+PAYMENT STATUS: [% order.txn_status %]
+TRANSACTION ID #: [% order.txn_id %]
+AUTHORIZATION CODE: [% order.txn_auth_code %]
+
+
 
 BILL TO:
-[% customer.bill_first_name %], [% customer.bill_last_name %]
-[% customer.bill_address1 %]
-[% customer.bill_address2 %]
-[% customer.bill_city %], [% customer.bill_state %] - [% customer.bill_zip %]
-[% customer.bill_country %]
-[% customer.bill_phone %]
-[% customer.email %]
+[% order.bill_first_name %], [% order.bill_last_name %]
+[% order.bill_address1 %]
+[% order.bill_address2 %]
+[% order.bill_city %], [% order.bill_state %] - [% order.bill_zip_code %]
+[% order.bill_country %]
+[% order.bill_phone %]
+[% order.email %]
 
 SHIP TO:
-[% customer.ship_first_name %], [% customer.ship_last_name %]
-[% customer.ship_address1 %]
-[% customer.ship_address2 %]
-[% customer.ship_city %], [% customer.bill_state %] - [% customer.ship_zip %]
-[% customer.ship_country %]
-[% customer.ship_phone %]
+[% order.ship_first_name %], [% order.ship_last_name %]
+[% order.ship_address1 %]
+[% order.ship_address2 %]
+[% order.ship_city %], [% order.bill_state %] - [% order.ship_zip_code %]
+[% order.ship_country %]
+[% order.ship_phone %]
 
 SHIPPING METHOD: [% order.shipping_type %]
-SHIPPING AMOUNT: $[% order.shipping_amount %]
+PROMOTION CODE: [% order.promo_code %]
 
 --------------------------------------------------------------------------------
 [% INCLUDE cart/order_view.tt2 %]
-SUB TOTAL: $[% amount %]
-TOTAL: $[% amount + order.shipping_amount %]
+
+SUB TOTAL: $[% items_amount | format('%0.2f') %]
+DISCOUNT: $[% order.discount_amount | format('%0.2f') %]
+SHIPPING: $[% order.shipping_amount | format('%0.2f') %]
+TOTAL: $[% order.payment_amount | format('%0.2f') %]
 -------------------------------------------------------------------------------
 
 IMPORTANT INFORMATION
  
 Shipping Time: 
-We pride ourselves on how quickly we process orders. Orders placed by noon EST, Mon-Fri, will be processed and shipped that business day. The only exception would be during extreme weather conditions, or during exceptionally busy times. Please allow 1-2 additional business days for processing during the last three weeks of December, our busiest time of the year. Please Note: Perishable orders placed after noon EST on Wednesday may need to be held to ship the following Monday. If your perishable order cannot be guaranteed to arrive by Saturday with your chosen delivery method, we will hold your order to ship the following Monday to protect the quality of your products. Please contact our Customer Service Office at support@saborespanol.com if you would like to expedite your perishable order.
+Orders placed by noon EST, Mon-Fri, will be processed and shipped that business day. The only exception would be during extreme weather conditions, or during exceptionally busy times. Please allow 1-2 additional business days for processing during the last three weeks of December, our busiest time of the year. Please Note: Perishable orders placed after noon EST on Wednesday may need to be held to ship the following Monday. If your perishable order cannot be guaranteed to arrive by Saturday with your chosen delivery method, we will hold your order to ship the following Monday to protect the quality of your products. Please contact our Customer Service Office at support@saborespanol.com if you would like to expedite your perishable order.
  
 Wine Orders:
 The law requires an adult signature at the time of delivery for orders containing alcohol. Please make sure the delivery address you provide is a location where an adult can receive the order in person. For convenience, we recommend sending such orders to a place of business. We also urge you to treat a fine wine as a perishable product, and not to economize on shipping. In particular, extreme weather is bad for wine. We ship all of our wines in a thick Styrofoam box designed to transport wine. It will protect the bottle from extreme temperatures -- but only for a day or so. 

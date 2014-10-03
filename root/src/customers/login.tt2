@@ -53,7 +53,7 @@
                       <a href="[% c.uri_for(
                         c.controller('Customers').action_for('account')
                       ) %]">
-                        Continue
+                        Create your Account
                       </a>
                     </td>
                     <td width="10">
@@ -105,7 +105,9 @@
             </tr>
             <tr>
               <td class="smallText" colspan="2">
-                <a href="http://www.saborespanol.com/customer/password">
+              <a 
+                href="[% c.uri_for(c.controller.action_for('password_lost')) %]"
+              >
                   Password forgotten? Click here.
                 </a>
               </td>

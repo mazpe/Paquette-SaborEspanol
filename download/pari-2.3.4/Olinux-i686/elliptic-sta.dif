@@ -1,0 +1,15 @@
+*** ../src/test/32/elliptic	2008-06-09 11:59:57.000000000 -0400
+--- gp.out	2009-10-27 09:50:45.000000000 -0400
+***************
+*** 160,164 ****
+  ? getheap
+  [58, 4708]
+  ? print("Total time spent: ",gettime);
+! Total time spent: 36
+  ? \q
+--- 160,164 ----
+  ? getheap
+  [58, 4708]
+  ? print("Total time spent: ",gettime);
+! Total time spent: 20
+  ? \q

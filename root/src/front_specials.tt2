@@ -1,6 +1,22 @@
        <div id="center_specials">
-         <img src="[% c.uri_for('/static/images/center_special_chrozios.jpg') %]" width="166" height="186" />
-         <img src="[% c.uri_for('/static/images/center_special_ham.jpg') %]" width="166" height="186" />
-         <img src="[% c.uri_for('/static/images/center_special_wines.jpg') %]" width="166" height="186" />
+        <a href="[% c.uri_for(
+            c.controller('Store').action_for('index'), 'hams'
+        ) %]">
+         <img src="[% c.uri_for('/static/images/center_special_ham_jamones.gif') %]" width="166" height="186" border="0" />
+        </a>
+        &nbsp;
+        &nbsp;
+        <a href="[% c.uri_for(
+            c.controller('Store').action_for('index'),'sausages_cheese'
+        ) %]">
+         <img src="[% c.uri_for('/static/images/center_special_sausage_cheese.gif') %]" width="166" height="186" border="0" />
+        </a>
+        &nbsp;
+        &nbsp;
+        <a href="[% c.uri_for(
+            c.controller('Store').action_for('index'), 'oil_vinegar'
+        ) %]">
+         <img src="[% c.uri_for('/static/images/center_special_oil_vinegar.gif') %]" width="166" height="186" border="0" />
+        </a>
        </div>
 
